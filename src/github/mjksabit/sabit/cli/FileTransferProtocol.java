@@ -6,10 +6,10 @@ public class FileTransferProtocol {
 
     static void send(String parentPath, File file, DataOutputStream out) throws IOException {
         if (file.isFile()) {
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[Main.BUFFER_SIZE];
             BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
 
-            out.writeUTF(Main.NEW_FILE_COMMAND);
+            out.writeUTF(Main.SENDING_COMMAND);
             out.writeUTF(parentPath+File.separator+file.getName());
             out.writeLong(file.length());
 
@@ -29,7 +29,7 @@ public class FileTransferProtocol {
     }
 
     static void receive(String parentPath, DataInputStream in) throws IOException {
-        while (!in.readUTF().equals(Main.STOP_COMMAND)) {
+        while (!in.readUTF().equals(Main.FINISHED_COMMAND)) {
             String fileName = in.readUTF();
             long fileSize = in.readLong();
 
@@ -39,7 +39,7 @@ public class FileTransferProtocol {
 
             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(file));
 
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[Main.BUFFER_SIZE];
             int n;
             for (long sizeToRead = fileSize;
                  (n = in.read(buffer, 0, (int) Math.min(buffer.length, sizeToRead))) != -1 &&

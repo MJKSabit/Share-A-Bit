@@ -1,16 +1,32 @@
 package github.mjksabit.sabit.cli;
 
 import github.mjksabit.autoconnect.ClientSide;
-import github.mjksabit.autoconnect.newServerObserver;
+import github.mjksabit.autoconnect.ServerDiscoveryObserver;
 
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Sender implements newServerObserver, Closeable {
-    ArrayList<ClientSide.ServerData> listReceivers;
+public class Sender implements ServerDiscoveryObserver, Closeable {
+
+    private class ServerInfo {
+        final InetAddress address;
+        final String name;
+        final int port;
+
+        public ServerInfo(ClientSide.ServerInfo serverInfo) throws Exception {
+            this.address = serverInfo.getAddress();
+            String[] responses = serverInfo.getResponseData().split(Main.REGEX_SPLITTER);
+
+            name = responses[0];
+            port = Integer.parseInt(responses[1]);
+        }
+    }
+
+    ArrayList<ServerInfo> listReceivers;
     ClientSide clientSide;
 
     Socket connectionSocket;
@@ -24,10 +40,10 @@ public class Sender implements newServerObserver, Closeable {
 
         clientSide.sendPresence();
 
-        ClientSide.ServerData data = listReceivers.get(selectOption());
+        ServerInfo data = listReceivers.get(selectOption());
         connect(data);
 
-        System.out.println("Receiver: " + data.getName());
+        System.out.println("Receiver: " + data.name);
         System.out.println("==================================");
         outputStream.writeUTF(name);
 
@@ -35,23 +51,16 @@ public class Sender implements newServerObserver, Closeable {
         File file = new File(scanner.nextLine());
 
         FileTransferProtocol.send(".", file, outputStream);
-        outputStream.writeUTF(Main.STOP_COMMAND);
+        outputStream.writeUTF(Main.FINISHED_COMMAND);
     }
 
 
 
-    private void connect(ClientSide.ServerData data) throws IOException {
-        connectionSocket = new Socket(data.getAddress(), data.getPort());
+    private void connect(ServerInfo info) throws IOException {
+        connectionSocket = new Socket(info.address, info.port);
         outputStream = new DataOutputStream(connectionSocket.getOutputStream());
 
         clientSide.stopListing();
-
-    }
-
-    @Override
-    public void addServer(ClientSide.ServerData serverData) {
-        System.out.println(listReceivers.size() + " - " + serverData.getName());
-        listReceivers.add(serverData);
     }
 
     private int selectOption() {
@@ -69,5 +78,17 @@ public class Sender implements newServerObserver, Closeable {
     public void close() throws IOException {
         outputStream.close();
         connectionSocket.close();
+    }
+
+    @Override
+    public void serverDiscovered(ClientSide.ServerInfo serverInfo) {
+        try {
+            ServerInfo info = new ServerInfo(serverInfo);
+            System.out.println(listReceivers.size() + "\t: " + info.name);
+            listReceivers.add(info);
+        } catch (Exception e) {
+            System.err.println("Response Type Mismatch!");
+        }
+
     }
 }

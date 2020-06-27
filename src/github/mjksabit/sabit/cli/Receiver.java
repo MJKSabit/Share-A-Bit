@@ -16,7 +16,7 @@ public class Receiver implements Closeable {
     DataInputStream inputStream;
 
     public Receiver(String name) throws IOException {
-        serverSide = new ServerSide(name, Main.listeningPort, Main.clientPort, Main.FTPPort);
+        serverSide = new ServerSide(name, Main.listeningPort, Main.clientPort, name + Main.REGEX_SPLITTER + Main.FTPPort);
 
         connect();
         inputStream = new DataInputStream(connectionSocket.getInputStream());

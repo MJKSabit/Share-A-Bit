@@ -10,8 +10,12 @@ public class Main {
     static final int clientPort = 21210;
     static final int FTPPort = 21211;
 
-    static final String NEW_FILE_COMMAND = "NEW_FILE";
-    static final String STOP_COMMAND = "STOP_SHARING";
+    static final String SENDING_COMMAND = "SEND_FILE";
+    static final String FINISHED_COMMAND = "STOP_SHARING";
+
+    static final int BUFFER_SIZE = 4*1024*1024; // 4 MB
+
+    static final String REGEX_SPLITTER = "\n";
 
 
     public static Scanner scanner = new Scanner(System.in);
