@@ -10,6 +10,10 @@ public class Main {
     static final int clientPort = 21210;
     static final int FTPPort = 21211;
 
+    static final String NEW_FILE_COMMAND = "NEW_FILE";
+    static final String STOP_COMMAND = "STOP_SHARING";
+
+
     public static Scanner scanner = new Scanner(System.in);
 
     public static char selectOption() {

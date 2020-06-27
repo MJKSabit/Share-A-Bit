@@ -34,7 +34,8 @@ public class Sender implements newServerObserver, Closeable {
         System.out.print("Enter File Path: ");
         File file = new File(scanner.nextLine());
 
-        FileTransferProtocol.send(file, outputStream);
+        FileTransferProtocol.send(".", file, outputStream);
+        outputStream.writeUTF(Main.STOP_COMMAND);
     }
 
 
