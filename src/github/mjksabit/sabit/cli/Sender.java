@@ -2,6 +2,7 @@ package github.mjksabit.sabit.cli;
 
 import github.mjksabit.autoconnect.ClientSide;
 import github.mjksabit.autoconnect.ServerDiscoveryObserver;
+import github.mjksabit.sabit.cli.partial.Progress;
 
 
 import java.io.*;
@@ -31,6 +32,9 @@ public class Sender implements ServerDiscoveryObserver, Closeable {
 
     Socket connectionSocket;
     DataOutputStream outputStream;
+    DataInputStream inputStream;
+
+    FileTransferProtocol protocol;
 
     Scanner scanner = new Scanner(System.in);
 
@@ -47,10 +51,12 @@ public class Sender implements ServerDiscoveryObserver, Closeable {
         System.out.println("==================================");
         outputStream.writeUTF(name);
 
+        protocol = new FileTransferProtocol(inputStream, outputStream);
+
         System.out.print("Enter File Path: ");
         File file = new File(scanner.nextLine());
 
-        FileTransferProtocol.send(".", file, outputStream);
+        protocol.send(".", file, new Progress());
         outputStream.writeUTF(Main.FINISHED_COMMAND);
     }
 
@@ -58,7 +64,9 @@ public class Sender implements ServerDiscoveryObserver, Closeable {
 
     private void connect(ServerInfo info) throws IOException {
         connectionSocket = new Socket(info.address, info.port);
+
         outputStream = new DataOutputStream(connectionSocket.getOutputStream());
+        inputStream = new DataInputStream(connectionSocket.getInputStream());
 
         clientSide.stopListing();
     }
@@ -77,6 +85,7 @@ public class Sender implements ServerDiscoveryObserver, Closeable {
     @Override
     public void close() throws IOException {
         outputStream.close();
+        inputStream.close();
         connectionSocket.close();
     }
 
