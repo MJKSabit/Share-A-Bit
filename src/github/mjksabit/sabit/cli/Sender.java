@@ -4,8 +4,7 @@ import github.mjksabit.autoconnect.ClientSide;
 import github.mjksabit.autoconnect.newServerObserver;
 
 
-import java.io.Closeable;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -15,6 +14,7 @@ public class Sender implements newServerObserver, Closeable {
     ClientSide clientSide;
 
     Socket connectionSocket;
+    DataOutputStream outputStream;
 
     Scanner scanner = new Scanner(System.in);
 
@@ -23,17 +23,27 @@ public class Sender implements newServerObserver, Closeable {
         clientSide = new ClientSide(this, name, Main.clientPort, Main.listeningPort);
 
         clientSide.sendPresence();
-        connect(listReceivers.get(selectOption()));
 
+        ClientSide.ServerData data = listReceivers.get(selectOption());
+        connect(data);
+
+        System.out.println("Receiver: " + data.getName());
+        System.out.println("==================================");
+        outputStream.writeUTF(name);
+
+        System.out.print("Enter File Path: ");
+        File file = new File(scanner.nextLine());
+
+        FileTransferProtocol.send(file, outputStream);
     }
+
+
 
     private void connect(ClientSide.ServerData data) throws IOException {
         connectionSocket = new Socket(data.getAddress(), data.getPort());
+        outputStream = new DataOutputStream(connectionSocket.getOutputStream());
 
-        if (connectionSocket.isConnected()) {
-            clientSide.stopListing();
-            System.out.println("Sending to " + data.getName());
-        }
+        clientSide.stopListing();
 
     }
 
@@ -45,6 +55,7 @@ public class Sender implements newServerObserver, Closeable {
 
     private int selectOption() {
         int choice = scanner.nextInt();
+        scanner.nextLine();
 
         if(0>choice || choice>=listReceivers.size()) {
             System.err.println("Invalid Choice, Choose Between [0, "+listReceivers.size()+")");
@@ -55,6 +66,7 @@ public class Sender implements newServerObserver, Closeable {
 
     @Override
     public void close() throws IOException {
+        outputStream.close();
         connectionSocket.close();
     }
 }
