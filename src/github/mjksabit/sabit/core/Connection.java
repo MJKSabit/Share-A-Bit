@@ -22,7 +22,7 @@ public abstract class Connection implements Closeable{
         this.name = name;
     }
 
-    protected String makeConnection(Socket connectionSocket, String connectionText) throws IOException {
+    public String makeConnection(Socket connectionSocket, String connectionText) throws IOException {
         this.connectionSocket = connectionSocket;
 
         outputStream = new DataOutputStream(connectionSocket.getOutputStream());
@@ -66,6 +66,9 @@ public abstract class Connection implements Closeable{
         ftp.startReceiving(fileSaveDirectory, progressUpdater);
     }
 
+    public boolean isActive() {
+        return ftp.isReceiving() || ftp.isSending();
+    }
 
     @Override
     public void close() throws IOException {

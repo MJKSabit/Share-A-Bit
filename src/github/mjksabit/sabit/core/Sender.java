@@ -13,94 +13,53 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Sender extends Connection implements ServerDiscoveryObserver {
+public class Sender extends Connection{
 
-    private class ServerInfo {
+    static public class ServerInfo {
         final InetAddress address;
         final String name;
         final int port;
 
-        public ServerInfo(ClientSide.ServerInfo serverInfo) throws Exception {
+        public ServerInfo(ClientSide.ServerInfo serverInfo){
             this.address = serverInfo.getAddress();
             String[] responses = serverInfo.getResponseData().split(Main.REGEX_SPLITTER);
 
             name = responses[0];
             port = Integer.parseInt(responses[1]);
         }
-    }
 
-    @Override
-    public void serverDiscovered(ClientSide.ServerInfo serverInfo) {
-        try {
-            ServerInfo info = new ServerInfo(serverInfo);
-            System.out.println(listReceivers.size() + "\t: " + info.name);
-            listReceivers.add(info);
-        } catch (Exception e) {
-            System.err.println("Response Type Mismatch!");
+        public InetAddress getAddress() {
+            return address;
         }
 
+        public String getName() {
+            return name;
+        }
+
+        public int getPort() {
+            return port;
+        }
     }
 
-    ArrayList<ServerInfo> listReceivers;
     ClientSide clientSide;
 
     Socket connectionSocket;
 
     Scanner scanner = new Scanner(System.in);
 
-    public Sender(String name) throws IOException {
+    public Sender(String name, ServerDiscoveryObserver observer) throws IOException {
         super(name);
-        listReceivers = new ArrayList<>();
-        clientSide = new ClientSide(this, name, Main.clientPort, Main.listeningPort);
+
+        clientSide = new ClientSide(observer, name, Main.clientPort, Main.listeningPort);
 
         clientSide.sendPresence();
 
-        ServerInfo data = listReceivers.get(selectOption());
-        clientSide.stopListing();
 
-        connectionSocket = new Socket(data.address, data.port);
-        String receiver = makeConnection(connectionSocket, name);
-
-        System.out.println("Receiver: " + receiver);
-        System.out.println("==================================");
-//        protocol = new ExtendedFTP(inputStream, outputStream);
-
-        System.out.print("Enter File Path(s): ");
-
-        String filename;
-        while ((filename = scanner.nextLine()) != null) {
-            File file = new File(filename);
-
-            try {
-                sendFile(file, new Progress());
-            } catch (FileNotFoundException e) {
-                break;
-            }
-        }
-
-        while (ftp.isSending()) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private int selectOption() {
-        int choice = scanner.nextInt();
-        scanner.nextLine();
-
-        if(0>choice || choice>=listReceivers.size()) {
-            System.err.println("Invalid Choice, Choose Between [0, "+listReceivers.size()+")");
-            return selectOption();
-        }
-        return choice;
     }
 
     @Override
-    public void close() throws IOException {
-        super.close();
-        connectionSocket.close();
+    public String makeConnection(Socket connectionSocket, String connectionText) throws IOException {
+        clientSide.stopListing();
+        return super.makeConnection(connectionSocket, connectionText);
     }
 }
