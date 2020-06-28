@@ -2,6 +2,8 @@ package github.mjksabit.sabit.cli;
 
 import github.mjksabit.autoconnect.ClientSide;
 import github.mjksabit.autoconnect.ServerDiscoveryObserver;
+import github.mjksabit.sabit.cli.ftp.SimpleFTP;
+import github.mjksabit.sabit.cli.ftp.IFTP;
 import github.mjksabit.sabit.cli.partial.Progress;
 
 
@@ -34,7 +36,7 @@ public class Sender implements ServerDiscoveryObserver, Closeable {
     DataOutputStream outputStream;
     DataInputStream inputStream;
 
-    FileTransferProtocol protocol;
+    IFTP protocol;
 
     Scanner scanner = new Scanner(System.in);
 
@@ -51,12 +53,17 @@ public class Sender implements ServerDiscoveryObserver, Closeable {
         System.out.println("==================================");
         outputStream.writeUTF(name);
 
-        protocol = new FileTransferProtocol(inputStream, outputStream);
+        protocol = new SimpleFTP(inputStream, outputStream);
 
-        System.out.print("Enter File Path: ");
-        File file = new File(scanner.nextLine());
+        System.out.print("Enter File Path(s): ");
 
-        protocol.addToSend(".", file, new Progress());
+        String filename;
+        while ((filename = scanner.nextLine()) != null) {
+            File file = new File(filename);
+
+            send(file, ".");
+        }
+
         while (protocol.isSending()) {
             try {
                 Thread.sleep(1000);
@@ -64,10 +71,22 @@ public class Sender implements ServerDiscoveryObserver, Closeable {
                 e.printStackTrace();
             }
         }
+
         outputStream.writeUTF(Main.FINISHED_COMMAND);
     }
 
+    private void send(File file, String parentPath) {
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
 
+            for (File iFile : files) {
+                String childPath = parentPath+File.separator+file.getName();
+                send(iFile, childPath);
+            }
+        }
+        else protocol.addToSend(parentPath, file, new Progress());
+
+    }
 
     private void connect(ServerInfo info) throws IOException {
         connectionSocket = new Socket(info.address, info.port);

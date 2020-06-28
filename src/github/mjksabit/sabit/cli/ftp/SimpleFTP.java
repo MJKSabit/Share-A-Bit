@@ -1,20 +1,15 @@
-package github.mjksabit.sabit.cli;
+package github.mjksabit.sabit.cli.ftp;
 
+import github.mjksabit.sabit.cli.Main;
 import javafx.util.Pair;
 
 import java.io.*;
+import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.Queue;
 import java.util.concurrent.*;
 
-public class FileTransferProtocol {
-
-    public interface ProgressUpdater {
-        void startProgress(File file);
-
-        void continueProgress(long currentProgress, long totalProgress);
-
-        void endProgress(File file);
-    }
+public class SimpleFTP implements IFTP {
 
     DataInputStream in;
     DataOutputStream out;
@@ -23,43 +18,9 @@ public class FileTransferProtocol {
     volatile Semaphore sendSemaphore = new Semaphore(1);
     ExecutorService receiveThread;
 
-    public static class FileData {
-        final String parentPath;
-        final File file;
-        final ProgressUpdater progress;
-        volatile boolean isCancelled;
-
-        public FileData(String parentPath, File file, ProgressUpdater progress) {
-            this.parentPath = parentPath;
-            this.file = file;
-            this.progress = progress;
-            isCancelled = false;
-        }
-
-        public void setCancelled(boolean cancelled) {
-            isCancelled = cancelled;
-        }
-
-        public String getParentPath() {
-            return parentPath;
-        }
-
-        public File getFile() {
-            return file;
-        }
-
-        public ProgressUpdater getProgress() {
-            return progress;
-        }
-
-        public boolean isCancelled() {
-            return isCancelled;
-        }
-    }
-
     volatile Queue<FileData> sendQueue = new ConcurrentLinkedQueue<>();
 
-    public FileTransferProtocol(DataInputStream in, DataOutputStream out) {
+    public SimpleFTP(DataInputStream in, DataOutputStream out) {
         this.in = in;
         this.out = out;
 
@@ -67,13 +28,28 @@ public class FileTransferProtocol {
         receiveThread = Executors.newSingleThreadExecutor();
     }
 
+    @Override
     public boolean isSending() {
         return sendSemaphore.availablePermits() == 0;
     }
 
 
+    public void stopSendingCurrent() {
+        if (!sendQueue.isEmpty())
+            sendQueue.peek().setCancelled(true);
+    }
 
-    public void addToSend (String parentPath, File file, ProgressUpdater progress) {
+    public void stopSendAll() {
+        Iterator<FileData> iterator = sendQueue.iterator();
+
+        while (iterator.hasNext()) {
+            iterator.next().setCancelled(true);
+        }
+    }
+
+
+    @Override
+    public void addToSend(String parentPath, File file, ProgressUpdater progress) {
         sendQueue.add(new FileData(parentPath, file, progress));
 
         if (!isSending()) {
@@ -83,9 +59,7 @@ public class FileTransferProtocol {
                 e.printStackTrace();
             }
 
-            System.out.println("New Thread Starting");
             sendThread.execute(() -> {
-                System.out.println("New Thread");
                 while (!sendQueue.isEmpty()) {
                     try {
                         send(sendQueue.peek());
@@ -102,7 +76,7 @@ public class FileTransferProtocol {
 
     private void send(FileData data) throws IOException {
         if (data.getFile().isFile()) {
-            byte[] buffer = new byte[Main.BUFFER_SIZE];
+            byte[] buffer = new byte[BUFFER_SIZE];
             BufferedInputStream in = new BufferedInputStream(new FileInputStream(data.getFile()));
 
             out.writeUTF(Main.SENDING_COMMAND);
@@ -127,21 +101,17 @@ public class FileTransferProtocol {
             in.close();
 
         } else {
-            File[] files = data.getFile().listFiles();
-
-            for (File iFile : files) {
-                String childPath = data.getParentPath()+File.separator+data.getFile().getName();
-                send(new FileData(childPath, iFile, data.getProgress()));
-            }
+            System.err.println("Not a File");
         }
     }
 
-    void receive(String parentPath, ProgressUpdater updater) throws IOException {
+    @Override
+    public void receive(String savePath, ProgressUpdater updater) throws IOException {
         while (!in.readUTF().equals(Main.FINISHED_COMMAND)) {
             String fileName = in.readUTF();
             long fileSize = in.readLong();
 
-            File file = new File(parentPath + File.separator + fileName);
+            File file = new File(savePath + File.separator + fileName);
 
             try {
                 file.getParentFile().mkdirs();
@@ -149,7 +119,7 @@ public class FileTransferProtocol {
 
             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(file));
 
-            byte[] buffer = new byte[Main.BUFFER_SIZE];
+            byte[] buffer = new byte[BUFFER_SIZE];
             int n;
 
             updater.startProgress(file);

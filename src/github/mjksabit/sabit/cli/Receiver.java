@@ -1,6 +1,8 @@
 package github.mjksabit.sabit.cli;
 
 import github.mjksabit.autoconnect.ServerSide;
+import github.mjksabit.sabit.cli.ftp.SimpleFTP;
+import github.mjksabit.sabit.cli.ftp.IFTP;
 import github.mjksabit.sabit.cli.partial.Progress;
 
 import java.io.Closeable;
@@ -17,7 +19,7 @@ public class Receiver implements Closeable {
     Socket connectionSocket;
     DataInputStream inputStream;
     DataOutputStream outputStream;
-    FileTransferProtocol protocol;
+    IFTP protocol;
 
     public Receiver(String name) throws IOException {
         serverSide = new ServerSide(name, Main.listeningPort, Main.clientPort, name + Main.REGEX_SPLITTER + Main.FTPPort);
@@ -26,7 +28,7 @@ public class Receiver implements Closeable {
         inputStream = new DataInputStream(connectionSocket.getInputStream());
         outputStream = new DataOutputStream(connectionSocket.getOutputStream());
 
-        protocol = new FileTransferProtocol(inputStream, outputStream);
+        protocol = new SimpleFTP(inputStream, outputStream);
 
         String senderName = inputStream.readUTF();
 

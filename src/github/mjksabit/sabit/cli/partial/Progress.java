@@ -1,10 +1,10 @@
 package github.mjksabit.sabit.cli.partial;
 
-import github.mjksabit.sabit.cli.FileTransferProtocol;
+import github.mjksabit.sabit.cli.ftp.SimpleFTP;
 
 import java.io.File;
 
-public class Progress implements FileTransferProtocol.ProgressUpdater {
+public class Progress implements SimpleFTP.ProgressUpdater {
     final int bytePerMB = 1024*1024;
 
     @Override
@@ -15,7 +15,7 @@ public class Progress implements FileTransferProtocol.ProgressUpdater {
     @Override
     public void continueProgress(long currentProgress, long totalProgress) {
         long percentage = currentProgress*100/totalProgress;
-        System.out.print("\r" + (currentProgress/bytePerMB) + "MB / " + (totalProgress/bytePerMB) + "MB (" + percentage + ")");
+        System.out.print("\r" + (currentProgress/bytePerMB) + "MB / " + (totalProgress/bytePerMB) + "MB (" + percentage + "%)");
     }
 
     @Override

@@ -10,10 +10,8 @@ public class Main {
     static final int clientPort = 21210;
     static final int FTPPort = 21211;
 
-    static final String SENDING_COMMAND = "SEND_FILE";
-    static final String FINISHED_COMMAND = "STOP_SHARING";
-
-    static final int BUFFER_SIZE = 512*1024; // 512 KB
+    public static final String SENDING_COMMAND = "SEND_FILE";
+    public static final String FINISHED_COMMAND = "STOP_SHARING";
 
     static final String REGEX_SPLITTER = "\n";
 
