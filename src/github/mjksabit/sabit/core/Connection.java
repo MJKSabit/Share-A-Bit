@@ -1,5 +1,6 @@
 package github.mjksabit.sabit.core;
 
+import github.mjksabit.sabit.cli.Main;
 import github.mjksabit.sabit.core.ftp.ExtendedFTP;
 import github.mjksabit.sabit.core.ftp.IFTP;
 
@@ -68,6 +69,7 @@ public abstract class Connection implements Closeable{
 
     @Override
     public void close() throws IOException {
+        outputStream.writeUTF(Main.FINISHED_COMMAND);
         inputStream.close();
         outputStream.close();
     }

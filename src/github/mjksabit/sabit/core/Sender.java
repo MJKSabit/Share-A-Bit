@@ -3,7 +3,6 @@ package github.mjksabit.sabit.core;
 import github.mjksabit.autoconnect.ClientSide;
 import github.mjksabit.autoconnect.ServerDiscoveryObserver;
 import github.mjksabit.sabit.cli.Main;
-import github.mjksabit.sabit.core.ftp.ExtendedFTP;
 import github.mjksabit.sabit.core.ftp.IFTP;
 import github.mjksabit.sabit.core.partial.Progress;
 
@@ -30,14 +29,22 @@ public class Sender extends Connection implements ServerDiscoveryObserver {
         }
     }
 
+    @Override
+    public void serverDiscovered(ClientSide.ServerInfo serverInfo) {
+        try {
+            ServerInfo info = new ServerInfo(serverInfo);
+            System.out.println(listReceivers.size() + "\t: " + info.name);
+            listReceivers.add(info);
+        } catch (Exception e) {
+            System.err.println("Response Type Mismatch!");
+        }
+
+    }
+
     ArrayList<ServerInfo> listReceivers;
     ClientSide clientSide;
 
     Socket connectionSocket;
-    DataOutputStream outputStream;
-    DataInputStream inputStream;
-
-    IFTP protocol;
 
     Scanner scanner = new Scanner(System.in);
 
@@ -49,14 +56,13 @@ public class Sender extends Connection implements ServerDiscoveryObserver {
         clientSide.sendPresence();
 
         ServerInfo data = listReceivers.get(selectOption());
-//        connect(data);
         clientSide.stopListing();
+
         connectionSocket = new Socket(data.address, data.port);
         String receiver = makeConnection(connectionSocket, name);
+
         System.out.println("Receiver: " + receiver);
         System.out.println("==================================");
-//        outputStream.writeUTF(name);
-        protocol = ftp;
 //        protocol = new ExtendedFTP(inputStream, outputStream);
 
         System.out.print("Enter File Path(s): ");
@@ -65,31 +71,20 @@ public class Sender extends Connection implements ServerDiscoveryObserver {
         while ((filename = scanner.nextLine()) != null) {
             File file = new File(filename);
 
-            sendFile(file, new Progress());
+            try {
+                sendFile(file, new Progress());
+            } catch (FileNotFoundException e) {
+                break;
+            }
         }
 
-        while (protocol.isSending()) {
+        while (ftp.isSending()) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-
-        outputStream.writeUTF(Main.FINISHED_COMMAND);
-    }
-
-    private void send(File file, String parentPath) {
-        protocol.addToSend(parentPath, file, new Progress());
-    }
-
-    private void connect(ServerInfo info) throws IOException {
-        connectionSocket = new Socket(info.address, info.port);
-
-        outputStream = new DataOutputStream(connectionSocket.getOutputStream());
-        inputStream = new DataInputStream(connectionSocket.getInputStream());
-
-        clientSide.stopListing();
     }
 
     private int selectOption() {
@@ -107,17 +102,5 @@ public class Sender extends Connection implements ServerDiscoveryObserver {
     public void close() throws IOException {
         super.close();
         connectionSocket.close();
-    }
-
-    @Override
-    public void serverDiscovered(ClientSide.ServerInfo serverInfo) {
-        try {
-            ServerInfo info = new ServerInfo(serverInfo);
-            System.out.println(listReceivers.size() + "\t: " + info.name);
-            listReceivers.add(info);
-        } catch (Exception e) {
-            System.err.println("Response Type Mismatch!");
-        }
-
     }
 }

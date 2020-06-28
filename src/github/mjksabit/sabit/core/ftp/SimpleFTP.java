@@ -132,6 +132,7 @@ public class SimpleFTP implements IFTP {
                             System.err.println("Can Not Receive : " + e.getLocalizedMessage());
                         }
                     }
+                    receiveSemaphore.release();
                 });
             } catch (InterruptedException ignored) {
             }
