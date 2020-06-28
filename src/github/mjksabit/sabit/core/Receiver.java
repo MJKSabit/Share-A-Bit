@@ -1,9 +1,6 @@
 package github.mjksabit.sabit.core;
 
 import github.mjksabit.autoconnect.ServerSide;
-import github.mjksabit.sabit.cli.Main;
-import github.mjksabit.sabit.core.ftp.SimpleFTP;
-import github.mjksabit.sabit.core.partial.Progress;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -13,36 +10,19 @@ public class Receiver extends Connection {
     ServerSide serverSide;
     ServerSocket serverSocket;
 
-    Socket connectionSocket;
-
-    public Receiver(String name) throws IOException {
+    public Receiver(String name) {
         super(name);
-        serverSide = new ServerSide(name, Main.listeningPort, Main.clientPort, name + Main.REGEX_SPLITTER + Main.FTPPort);
+        serverSide = new ServerSide(name, listeningPort, clientPort, name + REGEX_SPLITTER + FTPPort);
+    }
 
+    public String waitForSender() throws IOException {
         serverSide.startListening();
-        serverSocket = new ServerSocket(Main.FTPPort);
+        serverSocket = new ServerSocket(FTPPort);
 
-        connectionSocket = serverSocket.accept();
+        Socket socket = serverSocket.accept();
         serverSide.stopListening();
 
-        String senderName = makeConnection(connectionSocket, name);
-
-        ftp = new SimpleFTP(inputStream, outputStream);
-
-
-        System.out.println("Sender: " + senderName);
-        System.out.println("====================================");
-
-        startReceiving(new Progress());
-
-        while (ftp.isReceiving()){
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
+        return makeConnection(socket, name);
     }
 
     @Override

@@ -8,9 +8,18 @@ import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 
-public abstract class Connection implements Closeable{
+public abstract class Connection implements Closeable {
     private static final String PARENT_PATH = ".";
     protected String fileSaveDirectory = PARENT_PATH;
+
+    public static final String SENDING_COMMAND = "SEND_FILE";
+    public static final String FINISHED_COMMAND = "STOP_SHARING";
+
+    public static final String REGEX_SPLITTER = "\n";
+
+    public static final int listeningPort = 21212;
+    public static final int clientPort = 21210;
+    public static final int FTPPort = 21211;
 
     String name;
     Socket connectionSocket;
@@ -72,7 +81,7 @@ public abstract class Connection implements Closeable{
 
     @Override
     public void close() throws IOException {
-        outputStream.writeUTF(Main.FINISHED_COMMAND);
+        outputStream.writeUTF(FINISHED_COMMAND);
         inputStream.close();
         outputStream.close();
     }

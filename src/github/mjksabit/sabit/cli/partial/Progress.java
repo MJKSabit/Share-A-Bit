@@ -1,4 +1,4 @@
-package github.mjksabit.sabit.core.partial;
+package github.mjksabit.sabit.cli.partial;
 
 import github.mjksabit.sabit.core.ftp.SimpleFTP;
 

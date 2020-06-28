@@ -7,6 +7,9 @@ import java.util.Iterator;
 import java.util.Queue;
 import java.util.concurrent.*;
 
+import static github.mjksabit.sabit.core.Connection.FINISHED_COMMAND;
+import static github.mjksabit.sabit.core.Connection.SENDING_COMMAND;
+
 public class SimpleFTP implements IFTP {
 
     DataInputStream in;
@@ -79,7 +82,7 @@ public class SimpleFTP implements IFTP {
             byte[] buffer = new byte[BUFFER_SIZE];
             BufferedInputStream in = new BufferedInputStream(new FileInputStream(data.getFile()));
 
-            out.writeUTF(Main.SENDING_COMMAND);
+            out.writeUTF(SENDING_COMMAND);
             out.writeUTF(data.getParentPath()+File.separator+data.getFile().getName());
             out.writeLong(data.getFile().length());
 
@@ -121,7 +124,7 @@ public class SimpleFTP implements IFTP {
                 receiveThread.execute(() -> {
                     while (true) {
                         try {
-                            if (in.readUTF().equals(Main.FINISHED_COMMAND)) break;
+                            if (in.readUTF().equals(FINISHED_COMMAND)) break;
                         } catch (IOException e) {
                             System.err.println("Command Mismatch! (from other client)");
                         }

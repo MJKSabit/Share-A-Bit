@@ -1,6 +1,6 @@
 package github.mjksabit.sabit.core.ftp;
 
-import github.mjksabit.sabit.core.partial.Progress;
+import github.mjksabit.sabit.cli.partial.Progress;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

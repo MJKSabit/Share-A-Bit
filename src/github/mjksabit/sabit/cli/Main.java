@@ -4,7 +4,7 @@ package github.mjksabit.sabit.cli;
 import github.mjksabit.autoconnect.ClientSide;
 import github.mjksabit.sabit.core.Receiver;
 import github.mjksabit.sabit.core.Sender;
-import github.mjksabit.sabit.core.partial.Progress;
+import github.mjksabit.sabit.cli.partial.Progress;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,17 +14,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-
-    public static final int listeningPort = 21212;
-    public static final int clientPort = 21210;
-    public static final int FTPPort = 21211;
-
-    public static final String SENDING_COMMAND = "SEND_FILE";
-    public static final String FINISHED_COMMAND = "STOP_SHARING";
-
-    public static final String REGEX_SPLITTER = "\n";
-
-
     public static Scanner scanner = new Scanner(System.in);
 
     static volatile ArrayList<Sender.ServerInfo> listReceivers;
@@ -43,8 +32,8 @@ public class Main {
         int choice = scanner.nextInt();
         scanner.nextLine();
 
-        if(0>choice || choice>=listReceivers.size()) {
-            System.err.println("Invalid Choice, Choose Between [0, "+listReceivers.size()+")");
+        if (0 > choice || choice >= listReceivers.size()) {
+            System.err.println("Invalid Choice, Choose Between [0, " + listReceivers.size() + ")");
             return selectOption();
         }
         return choice;
@@ -69,8 +58,7 @@ public class Main {
                         } catch (Exception e) {
                             System.err.println("Response Type Mismatch!");
                         }
-                    });)
-                    {
+                    });) {
                         Sender.ServerInfo data = listReceivers.get(selectReceiver());
 
                         Socket connectionSocket = new Socket(data.getAddress(), data.getPort());
@@ -108,6 +96,21 @@ public class Main {
                 }
                 case 'r': {
                     try (Receiver receiver = new Receiver(name)) {
+                        System.out.println("Waiting for Receiver ...");
+                        String senderName = receiver.waitForSender();
+
+                        System.out.println("Sender: " + senderName);
+                        System.out.println("====================================");
+
+                        receiver.startReceiving(new Progress());
+
+                        while (receiver.isActive()) {
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
 
                     } catch (IOException e) {
                         System.err.println(e.getMessage());
