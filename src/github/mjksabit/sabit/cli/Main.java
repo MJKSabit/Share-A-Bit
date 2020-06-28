@@ -1,6 +1,9 @@
 package github.mjksabit.sabit.cli;
 
 
+import github.mjksabit.sabit.core.Receiver;
+import github.mjksabit.sabit.core.Sender;
+
 import java.io.IOException;
 import java.util.Scanner;
 

@@ -1,7 +1,6 @@
-package github.mjksabit.sabit.cli.ftp;
+package github.mjksabit.sabit.core.ftp;
 
 import java.io.File;
-import java.io.IOException;
 
 public interface IFTP {
 

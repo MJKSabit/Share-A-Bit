@@ -1,11 +1,9 @@
-package github.mjksabit.sabit.cli.ftp;
+package github.mjksabit.sabit.core.ftp;
 
 import github.mjksabit.sabit.cli.Main;
-import javafx.util.Pair;
 
 import java.io.*;
 import java.util.Iterator;
-import java.util.ListIterator;
 import java.util.Queue;
 import java.util.concurrent.*;
 
@@ -45,6 +43,7 @@ public class SimpleFTP implements IFTP {
 
         while (iterator.hasNext()) {
             iterator.next().setCancelled(true);
+
         }
     }
 

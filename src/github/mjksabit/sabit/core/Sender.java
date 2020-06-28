@@ -1,11 +1,11 @@
-package github.mjksabit.sabit.cli;
+package github.mjksabit.sabit.core;
 
 import github.mjksabit.autoconnect.ClientSide;
 import github.mjksabit.autoconnect.ServerDiscoveryObserver;
-import github.mjksabit.sabit.cli.ftp.ExtendedFTP;
-import github.mjksabit.sabit.cli.ftp.SimpleFTP;
-import github.mjksabit.sabit.cli.ftp.IFTP;
-import github.mjksabit.sabit.cli.partial.Progress;
+import github.mjksabit.sabit.cli.Main;
+import github.mjksabit.sabit.core.ftp.ExtendedFTP;
+import github.mjksabit.sabit.core.ftp.IFTP;
+import github.mjksabit.sabit.core.partial.Progress;
 
 
 import java.io.*;
@@ -14,7 +14,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Sender implements ServerDiscoveryObserver, Closeable {
+public class Sender extends Connection implements ServerDiscoveryObserver {
 
     private class ServerInfo {
         final InetAddress address;
@@ -42,19 +42,22 @@ public class Sender implements ServerDiscoveryObserver, Closeable {
     Scanner scanner = new Scanner(System.in);
 
     public Sender(String name) throws IOException {
+        super(name);
         listReceivers = new ArrayList<>();
         clientSide = new ClientSide(this, name, Main.clientPort, Main.listeningPort);
 
         clientSide.sendPresence();
 
         ServerInfo data = listReceivers.get(selectOption());
-        connect(data);
-
-        System.out.println("Receiver: " + data.name);
+//        connect(data);
+        clientSide.stopListing();
+        connectionSocket = new Socket(data.address, data.port);
+        String receiver = makeConnection(connectionSocket, name);
+        System.out.println("Receiver: " + receiver);
         System.out.println("==================================");
-        outputStream.writeUTF(name);
-
-        protocol = new ExtendedFTP(inputStream, outputStream);
+//        outputStream.writeUTF(name);
+        protocol = ftp;
+//        protocol = new ExtendedFTP(inputStream, outputStream);
 
         System.out.print("Enter File Path(s): ");
 
@@ -62,7 +65,7 @@ public class Sender implements ServerDiscoveryObserver, Closeable {
         while ((filename = scanner.nextLine()) != null) {
             File file = new File(filename);
 
-            send(file, ".");
+            sendFile(file, new Progress());
         }
 
         while (protocol.isSending()) {
@@ -102,8 +105,7 @@ public class Sender implements ServerDiscoveryObserver, Closeable {
 
     @Override
     public void close() throws IOException {
-        outputStream.close();
-        inputStream.close();
+        super.close();
         connectionSocket.close();
     }
 

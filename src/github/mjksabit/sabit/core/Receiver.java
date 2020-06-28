@@ -1,9 +1,10 @@
-package github.mjksabit.sabit.cli;
+package github.mjksabit.sabit.core;
 
 import github.mjksabit.autoconnect.ServerSide;
-import github.mjksabit.sabit.cli.ftp.SimpleFTP;
-import github.mjksabit.sabit.cli.ftp.IFTP;
-import github.mjksabit.sabit.cli.partial.Progress;
+import github.mjksabit.sabit.cli.Main;
+import github.mjksabit.sabit.core.ftp.SimpleFTP;
+import github.mjksabit.sabit.core.ftp.IFTP;
+import github.mjksabit.sabit.core.partial.Progress;
 
 import java.io.Closeable;
 import java.io.DataInputStream;
@@ -31,6 +32,7 @@ public class Receiver implements Closeable {
         protocol = new SimpleFTP(inputStream, outputStream);
 
         String senderName = inputStream.readUTF();
+        outputStream.writeUTF(name);
 
         System.out.println("Sender: " + senderName);
         System.out.println("====================================");

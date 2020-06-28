@@ -1,6 +1,6 @@
-package github.mjksabit.sabit.cli.partial;
+package github.mjksabit.sabit.core.partial;
 
-import github.mjksabit.sabit.cli.ftp.SimpleFTP;
+import github.mjksabit.sabit.core.ftp.SimpleFTP;
 
 import java.io.File;
 
