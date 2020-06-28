@@ -56,7 +56,14 @@ public class Sender implements ServerDiscoveryObserver, Closeable {
         System.out.print("Enter File Path: ");
         File file = new File(scanner.nextLine());
 
-        protocol.send(".", file, new Progress());
+        protocol.addToSend(".", file, new Progress());
+        while (protocol.isSending()) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         outputStream.writeUTF(Main.FINISHED_COMMAND);
     }
 

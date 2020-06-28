@@ -13,7 +13,7 @@ public class Main {
     static final String SENDING_COMMAND = "SEND_FILE";
     static final String FINISHED_COMMAND = "STOP_SHARING";
 
-    static final int BUFFER_SIZE = 4*1024*1024; // 4 MB
+    static final int BUFFER_SIZE = 512*1024; // 512 KB
 
     static final String REGEX_SPLITTER = "\n";
 
