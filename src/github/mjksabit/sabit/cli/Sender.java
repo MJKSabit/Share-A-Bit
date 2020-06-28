@@ -2,6 +2,7 @@ package github.mjksabit.sabit.cli;
 
 import github.mjksabit.autoconnect.ClientSide;
 import github.mjksabit.autoconnect.ServerDiscoveryObserver;
+import github.mjksabit.sabit.cli.ftp.ExtendedFTP;
 import github.mjksabit.sabit.cli.ftp.SimpleFTP;
 import github.mjksabit.sabit.cli.ftp.IFTP;
 import github.mjksabit.sabit.cli.partial.Progress;
@@ -53,7 +54,7 @@ public class Sender implements ServerDiscoveryObserver, Closeable {
         System.out.println("==================================");
         outputStream.writeUTF(name);
 
-        protocol = new SimpleFTP(inputStream, outputStream);
+        protocol = new ExtendedFTP(inputStream, outputStream);
 
         System.out.print("Enter File Path(s): ");
 
@@ -76,16 +77,7 @@ public class Sender implements ServerDiscoveryObserver, Closeable {
     }
 
     private void send(File file, String parentPath) {
-        if (file.isDirectory()) {
-            File[] files = file.listFiles();
-
-            for (File iFile : files) {
-                String childPath = parentPath+File.separator+file.getName();
-                send(iFile, childPath);
-            }
-        }
-        else protocol.addToSend(parentPath, file, new Progress());
-
+        protocol.addToSend(parentPath, file, new Progress());
     }
 
     private void connect(ServerInfo info) throws IOException {

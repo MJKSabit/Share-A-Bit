@@ -35,7 +35,16 @@ public class Receiver implements Closeable {
         System.out.println("Sender: " + senderName);
         System.out.println("====================================");
 
-        protocol.receive(".", new Progress());
+        protocol.startReceiving(".", new Progress());
+
+        while (protocol.isReceiving()){
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     private void connect() throws IOException {

@@ -17,6 +17,7 @@ public class SimpleFTP implements IFTP {
     ExecutorService sendThread;
     volatile Semaphore sendSemaphore = new Semaphore(1);
     ExecutorService receiveThread;
+    volatile Semaphore receiveSemaphore = new Semaphore(1);
 
     volatile Queue<FileData> sendQueue = new ConcurrentLinkedQueue<>();
 
@@ -106,35 +107,65 @@ public class SimpleFTP implements IFTP {
     }
 
     @Override
-    public void receive(String savePath, ProgressUpdater updater) throws IOException {
-        while (!in.readUTF().equals(Main.FINISHED_COMMAND)) {
-            String fileName = in.readUTF();
-            long fileSize = in.readLong();
+    public boolean isReceiving() {
+        return receiveSemaphore.availablePermits() == 0;
+    }
 
-            File file = new File(savePath + File.separator + fileName);
-
-            try {
-                file.getParentFile().mkdirs();
-            } catch (NullPointerException ignore) {}
-
-            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(file));
-
-            byte[] buffer = new byte[BUFFER_SIZE];
-            int n;
-
-            updater.startProgress(file);
-
-            for (long sizeToRead = fileSize;
-                 (n = in.read(buffer, 0, (int) Math.min(buffer.length, sizeToRead))) != -1 &&
-                         sizeToRead > 0; sizeToRead -= n) {
-
-                bufferedOutputStream.write(buffer, 0, n);
-                updater.continueProgress(fileSize - sizeToRead, fileSize);
-            }
-
-            updater.endProgress(file);
-
-            bufferedOutputStream.close();
+    @Override
+    public void startReceiving(String savePath, ProgressUpdater updater) {
+        if (isReceiving()) {
+            System.err.println("Receiver Thread Already Running!");
         }
+        else {
+            try {
+                receiveSemaphore.acquire();
+                receiveThread.execute(() -> {
+                    while (true) {
+                        try {
+                            if (in.readUTF().equals(Main.FINISHED_COMMAND)) break;
+                        } catch (IOException e) {
+                            System.err.println("Command Mismatch! (from other client)");
+                        }
+
+                        try {
+                            receive(savePath, updater);
+                        } catch (IOException e) {
+                            System.err.println("Can Not Receive : " + e.getLocalizedMessage());
+                        }
+                    }
+                });
+            } catch (InterruptedException ignored) {
+            }
+        }
+    }
+
+    private void receive(String savePath, ProgressUpdater updater) throws IOException {
+        String fileName = in.readUTF();
+        long fileSize = in.readLong();
+
+        File file = new File(savePath + File.separator + fileName);
+
+        try {
+            file.getParentFile().mkdirs();
+        } catch (NullPointerException ignore) {}
+
+        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(file));
+
+        byte[] buffer = new byte[BUFFER_SIZE];
+        int n;
+
+        updater.startProgress(file);
+
+        for (long sizeToRead = fileSize;
+             (n = in.read(buffer, 0, (int) Math.min(buffer.length, sizeToRead))) != -1 &&
+                     sizeToRead > 0; sizeToRead -= n) {
+
+            bufferedOutputStream.write(buffer, 0, n);
+            updater.continueProgress(fileSize - sizeToRead, fileSize);
+        }
+
+        updater.endProgress(file);
+
+        bufferedOutputStream.close();
     }
 }

@@ -5,7 +5,6 @@ import github.mjksabit.sabit.cli.partial.Progress;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.IOException;
 
 public class ExtendedFTP implements IFTP {
 
@@ -42,7 +41,12 @@ public class ExtendedFTP implements IFTP {
     }
 
     @Override
-    public void receive(String savePath, ProgressUpdater updater) throws IOException {
-        simpleFTP.receive(savePath, updater);
+    public boolean isReceiving() {
+        return simpleFTP.isReceiving();
+    }
+
+    @Override
+    public void startReceiving(String savePath, ProgressUpdater updater) {
+        simpleFTP.startReceiving(savePath, updater);
     }
 }

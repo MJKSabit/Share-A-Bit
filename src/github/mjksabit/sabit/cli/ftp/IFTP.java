@@ -11,7 +11,9 @@ public interface IFTP {
 
     void addToSend(String parentPath, File file, ProgressUpdater progress);
 
-    void receive(String savePath, ProgressUpdater updater) throws IOException;
+    boolean isReceiving();
+
+    void startReceiving(String savePath, ProgressUpdater updater);
 
     interface ProgressUpdater {
 

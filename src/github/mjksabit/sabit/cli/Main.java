@@ -6,14 +6,14 @@ import java.util.Scanner;
 
 public class Main {
 
-    static final int listeningPort = 21212;
-    static final int clientPort = 21210;
-    static final int FTPPort = 21211;
+    public static final int listeningPort = 21212;
+    public static final int clientPort = 21210;
+    public static final int FTPPort = 21211;
 
     public static final String SENDING_COMMAND = "SEND_FILE";
     public static final String FINISHED_COMMAND = "STOP_SHARING";
 
-    static final String REGEX_SPLITTER = "\n";
+    public static final String REGEX_SPLITTER = "\n";
 
 
     public static Scanner scanner = new Scanner(System.in);
