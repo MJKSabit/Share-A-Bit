@@ -1,7 +1,5 @@
 package github.mjksabit.sabit.core.ftp;
 
-import github.mjksabit.sabit.cli.Main;
-
 import java.io.*;
 import java.util.Iterator;
 import java.util.Queue;
