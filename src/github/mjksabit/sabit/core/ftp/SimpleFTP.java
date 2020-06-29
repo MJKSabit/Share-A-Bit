@@ -165,8 +165,8 @@ public class SimpleFTP implements IFTP {
             updater.continueProgress(fileSize - sizeToRead, fileSize);
         }
 
+        bufferedOutputStream.close();
         updater.endProgress(file);
 
-        bufferedOutputStream.close();
     }
 }

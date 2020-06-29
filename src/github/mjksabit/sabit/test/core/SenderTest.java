@@ -62,7 +62,7 @@ class SenderTest implements ServerDiscoveryObserver {
 
     @org.junit.jupiter.api.Test
     void sendFile() {
-        File file = new File("/media/sabit/Data/TV Series/Chernobyl.720p.x265/Chernobyl.S01E01.720p.WEBRip.HEVC.x265.RMT.Farda.DL.mkv");
+        File file = new File("/media/sabit/Data/@CODE/Java/Share-A-Bit/improved-cli/src/github/mjksabit/sabit/core/ftp/ExtendedFTP.java");
         try {
             sender.sendFile(file, new Progress());
         } catch (FileNotFoundException | SocketException e) {
@@ -77,7 +77,7 @@ class SenderTest implements ServerDiscoveryObserver {
             }
         }
 
-        File received = new File("./Chernobyl.S01E01.720p.WEBRip.HEVC.x265.RMT.Farda.DL.mkv");
+        File received = new File("." + File.separator + file.getName());
         assertEquals(file.length(), received.length(), "File Sent Successfully");
 
         received.delete();
