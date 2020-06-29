@@ -18,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SenderTest implements ServerDiscoveryObserver {
 
+    static String FILE = "/media/sabit/Data/TV Series/Breathe.S01.720p.Web-Rip.x265";
+
     Sender sender;
     Semaphore connected = new Semaphore(1);
     Sender.ServerInfo info;
@@ -50,19 +52,37 @@ class SenderTest implements ServerDiscoveryObserver {
         System.out.println(receiver);
     }
 
-    @Disabled
-    @org.junit.jupiter.api.Test
-    void stopSending() {
-    }
 
     @Disabled
     @org.junit.jupiter.api.Test
-    void testStopSending() {
+    void testCancelSending() {
+        File file = new File(FILE);
+        try {
+            sender.sendFile(file, new Progress());
+        } catch (FileNotFoundException | SocketException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        sender.cancelSending();
+
+        while (sender.isActive()) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @org.junit.jupiter.api.Test
     void sendFile() {
-        File file = new File("/media/sabit/Data/@CODE/Java/Share-A-Bit/improved-cli/src/github/mjksabit/sabit/core/ftp/ExtendedFTP.java");
+        File file = new File(FILE);
         try {
             sender.sendFile(file, new Progress());
         } catch (FileNotFoundException | SocketException e) {

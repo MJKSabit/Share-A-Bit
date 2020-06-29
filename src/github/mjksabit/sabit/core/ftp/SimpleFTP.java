@@ -67,11 +67,18 @@ public class SimpleFTP implements IFTP {
                     } catch (IOException e) {
                         System.err.println(sendQueue.peek().getFile().getName() + " not Sent!");
                     } finally {
-                        sendQueue.remove();
+                        if (!sendQueue.isEmpty()) sendQueue.remove();
                     }
                 }
                 sendSemaphore.release();
             });
+        }
+    }
+
+    @Override
+    public void cancelSending() {
+        synchronized (sendQueue) {
+            sendQueue.clear();
         }
     }
 

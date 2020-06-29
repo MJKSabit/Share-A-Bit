@@ -10,6 +10,8 @@ public interface IFTP {
 
     void addToSend(String parentPath, File file, ProgressUpdater progress);
 
+    void cancelSending();
+
     boolean isReceiving();
 
     void startReceiving(String savePath, ProgressUpdater updater);

@@ -53,12 +53,12 @@ public abstract class Connection implements Closeable {
         this.fileSaveDirectory = fileSaveDirectory;
     }
 
-    public void stopSending(File file) {
+    public void cancelSending(File file) {
         // NEEDS IMPLEMENTATION
     }
 
-    public void stopSending() {
-        // NEEDS IMPLEMENTATION
+    public void cancelSending() {
+        ftp.cancelSending();
     }
 
     public void sendFile(File file, IFTP.ProgressUpdater progressUpdater) throws FileNotFoundException, SocketException {

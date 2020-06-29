@@ -41,6 +41,11 @@ public class ExtendedFTP implements IFTP {
     }
 
     @Override
+    public void cancelSending() {
+        simpleFTP.cancelSending();
+    }
+
+    @Override
     public boolean isReceiving() {
         return simpleFTP.isReceiving();
     }
