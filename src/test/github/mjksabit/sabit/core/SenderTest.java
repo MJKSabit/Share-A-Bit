@@ -1,4 +1,4 @@
-package github.mjksabit.sabit.test.core;
+package github.mjksabit.sabit.core;
 
 import github.mjksabit.autoconnect.ClientSide;
 import github.mjksabit.autoconnect.ServerDiscoveryObserver;

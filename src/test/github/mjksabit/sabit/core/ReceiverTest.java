@@ -1,4 +1,4 @@
-package github.mjksabit.sabit.test.core;
+package github.mjksabit.sabit.core;
 
 import github.mjksabit.sabit.cli.Progress;
 import github.mjksabit.sabit.core.Receiver;

@@ -2,7 +2,6 @@ package github.mjksabit.sabit.gui;
 
 import github.mjksabit.sabit.gui.controller.Controller;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
@@ -15,6 +14,7 @@ public class JFXLoader {
 
         Parent rootNode = loader.load();
         Scene scene = new Scene(rootNode);
+
         T controller = loader.getController();
         controller.setRootNode(rootNode);
 
