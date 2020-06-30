@@ -2,12 +2,10 @@ package github.mjksabit.sabit.test.core;
 
 import github.mjksabit.autoconnect.ClientSide;
 import github.mjksabit.autoconnect.ServerDiscoveryObserver;
-import github.mjksabit.sabit.cli.partial.Progress;
+import github.mjksabit.sabit.cli.Progress;
 import github.mjksabit.sabit.core.Sender;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import javax.print.attribute.standard.PresentationDirection;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -54,7 +52,6 @@ class SenderTest implements ServerDiscoveryObserver {
     }
 
 
-    @Disabled
     @org.junit.jupiter.api.Test
     void testCancelSending() {
         File file = new File(FILE);
@@ -105,6 +102,8 @@ class SenderTest implements ServerDiscoveryObserver {
                 e.printStackTrace();
             }
         }
+
+        sendFile();
     }
 
     @org.junit.jupiter.api.Test
@@ -116,18 +115,18 @@ class SenderTest implements ServerDiscoveryObserver {
             e.printStackTrace();
         }
 
-        while (sender.isActive()) {
+        do {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
+        } while (sender.isActive());
 
         File received = new File("." + File.separator + file.getName());
         assertEquals(file.length(), received.length(), "File Sent Successfully");
 
-//        received.delete();
+        received.delete();
     }
 
     @org.junit.jupiter.api.Disabled

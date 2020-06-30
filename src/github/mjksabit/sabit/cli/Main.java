@@ -4,7 +4,6 @@ package github.mjksabit.sabit.cli;
 import github.mjksabit.autoconnect.ClientSide;
 import github.mjksabit.sabit.core.Receiver;
 import github.mjksabit.sabit.core.Sender;
-import github.mjksabit.sabit.cli.partial.Progress;
 
 import java.io.File;
 import java.io.FileNotFoundException;

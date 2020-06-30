@@ -1,6 +1,6 @@
 package github.mjksabit.sabit.test.core;
 
-import github.mjksabit.sabit.cli.partial.Progress;
+import github.mjksabit.sabit.cli.Progress;
 import github.mjksabit.sabit.core.Receiver;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.SocketException;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ReceiverTest {
 
