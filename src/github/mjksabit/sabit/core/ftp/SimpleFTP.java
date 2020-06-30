@@ -98,6 +98,7 @@ public class SimpleFTP implements IFTP {
 
             while ( (n =in.read(buffer, 0, buffer.length)) != -1) {
                 out.write(buffer, 0, n);
+                out.writeByte(100);
                 out.flush();
 
                 currentProgress += n;
@@ -129,15 +130,21 @@ public class SimpleFTP implements IFTP {
                 receiveThread.execute(() -> {
                     while (true) {
                         try {
-                            if (in.readUTF().equals(FINISHED_COMMAND)) break;
-                        } catch (IOException e) {
-                            System.err.println("Command Mismatch! (from other client)");
+                            String cmd =  in.readUTF();
+                            if (cmd.equals(FINISHED_COMMAND)) break;
+                        } catch (EOFException e) {
+                            System.out.println("Connection Closed!");
+                            break;
+                        }
+                        catch (IOException e) {
+                            e.printStackTrace();
                         }
 
                         try {
                             receive(savePath, updater);
                         } catch (IOException e) {
                             System.err.println("Can Not Receive : " + e.getLocalizedMessage());
+                            break;
                         }
                     }
                     receiveSemaphore.release();
@@ -160,15 +167,26 @@ public class SimpleFTP implements IFTP {
         BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(file));
 
         byte[] buffer = new byte[BUFFER_SIZE];
-        int n;
+        int n, signalAway = BUFFER_SIZE;
+        byte signal;
 
         updater.startProgress(file);
 
-        for (long sizeToRead = fileSize;
-             (n = in.read(buffer, 0, (int) Math.min(buffer.length, sizeToRead))) != -1 &&
-                     sizeToRead > 0; sizeToRead -= n) {
+        for (long sizeToRead = fileSize; sizeToRead > 0 &&
+             (n = in.read(buffer, 0, (int) Math.min(buffer.length, sizeToRead))) != -1; sizeToRead -= n) {
 
-            bufferedOutputStream.write(buffer, 0, n);
+            if(signalAway - n < 0){
+                bufferedOutputStream.write(buffer, 0, signalAway);
+                signal = buffer[signalAway];
+                bufferedOutputStream.write(buffer, signalAway+1, n-signalAway-1);
+
+                sizeToRead++;
+                signalAway += BUFFER_SIZE - n;
+            } else {
+                bufferedOutputStream.write(buffer, 0, n);
+                signalAway -= n;
+            }
+
             updater.continueProgress(fileSize - sizeToRead, fileSize);
         }
 

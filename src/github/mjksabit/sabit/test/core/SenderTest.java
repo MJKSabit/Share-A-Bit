@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SenderTest implements ServerDiscoveryObserver {
 
-    static String FILE = "/media/sabit/Data/TV Series/Breathe.S01.720p.Web-Rip.x265";
+    static String FILE = "/media/sabit/Data/Downloads/Client-Needs-and-Software-Requirements-V2.2.pdf";
 
     Sender sender;
     Semaphore connected = new Semaphore(1);
