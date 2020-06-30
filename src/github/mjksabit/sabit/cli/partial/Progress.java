@@ -19,6 +19,12 @@ public class Progress implements SimpleFTP.ProgressUpdater {
     }
 
     @Override
+    public void cancelProgress(File file) {
+        System.out.println();
+        System.out.println("Canceled File: " + file.getName());
+    }
+
+    @Override
     public void endProgress(File file) {
         continueProgress(file.length(), file.length());
         System.out.println();

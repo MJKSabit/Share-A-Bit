@@ -41,6 +41,11 @@ public class ExtendedFTP implements IFTP {
     }
 
     @Override
+    public void cancelSendingCurrent() {
+        simpleFTP.cancelSendingCurrent();
+    }
+
+    @Override
     public void cancelSending() {
         simpleFTP.cancelSending();
     }

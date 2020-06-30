@@ -53,8 +53,8 @@ public abstract class Connection implements Closeable {
         this.fileSaveDirectory = fileSaveDirectory;
     }
 
-    public void cancelSending(File file) {
-        // NEEDS IMPLEMENTATION
+    public void cancelSendingCurrent() {
+        ftp.cancelSendingCurrent();
     }
 
     public void cancelSending() {

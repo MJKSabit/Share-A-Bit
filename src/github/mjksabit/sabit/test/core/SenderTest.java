@@ -5,6 +5,7 @@ import github.mjksabit.autoconnect.ServerDiscoveryObserver;
 import github.mjksabit.sabit.cli.partial.Progress;
 import github.mjksabit.sabit.core.Sender;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import javax.print.attribute.standard.PresentationDirection;
 import java.io.File;
@@ -18,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SenderTest implements ServerDiscoveryObserver {
 
-    static String FILE = "/media/sabit/Data/Downloads/Client-Needs-and-Software-Requirements-V2.2.pdf";
+    static String FILE = "/media/sabit/Data/TV Series/Breathe.S01.720p.Web-Rip.x265/Breathe.S01E01.720p.WEB-DL.x265.RMTeam.(Satina.CO).mkv";
 
     Sender sender;
     Semaphore connected = new Semaphore(1);
@@ -80,6 +81,32 @@ class SenderTest implements ServerDiscoveryObserver {
         }
     }
 
+    @Test
+    void cancelSendingCurrent() {
+        File file = new File(FILE);
+        try {
+            sender.sendFile(file, new Progress());
+        } catch (FileNotFoundException | SocketException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        sender.cancelSendingCurrent();
+
+        while (sender.isActive()) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @org.junit.jupiter.api.Test
     void sendFile() {
         File file = new File(FILE);
@@ -100,7 +127,7 @@ class SenderTest implements ServerDiscoveryObserver {
         File received = new File("." + File.separator + file.getName());
         assertEquals(file.length(), received.length(), "File Sent Successfully");
 
-        received.delete();
+//        received.delete();
     }
 
     @org.junit.jupiter.api.Disabled

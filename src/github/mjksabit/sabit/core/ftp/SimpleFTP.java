@@ -76,6 +76,13 @@ public class SimpleFTP implements IFTP {
     }
 
     @Override
+    public void cancelSendingCurrent() {
+        synchronized (sendQueue) {
+            if (!sendQueue.isEmpty()) sendQueue.peek().setCancelled(true);
+        }
+    }
+
+    @Override
     public void cancelSending() {
         synchronized (sendQueue) {
             sendQueue.clear();
@@ -98,17 +105,17 @@ public class SimpleFTP implements IFTP {
 
             while ( (n =in.read(buffer, 0, buffer.length)) != -1) {
                 out.write(buffer, 0, n);
-                out.writeByte(100);
-                out.flush();
+                out.writeByte(data.isCancelled() ? 0 : 1);
 
                 currentProgress += n;
                 data.getProgress().continueProgress(currentProgress, totalProgress);
+
+                if (data.isCancelled()) break;
             }
 
-            data.getProgress().endProgress(data.getFile());
-
             in.close();
-
+            if (data.isCancelled()) data.getProgress().cancelProgress(data.getFile());
+            else data.getProgress().endProgress(data.getFile());
         } else {
             System.err.println("Not a File");
         }
@@ -168,30 +175,34 @@ public class SimpleFTP implements IFTP {
 
         byte[] buffer = new byte[BUFFER_SIZE];
         int n, signalAway = BUFFER_SIZE;
-        byte signal;
+        byte signal = 1;
 
         updater.startProgress(file);
 
-        for (long sizeToRead = fileSize; sizeToRead > 0 &&
-             (n = in.read(buffer, 0, (int) Math.min(buffer.length, sizeToRead))) != -1; sizeToRead -= n) {
+        for (long sizeToRead = fileSize; signal != 0 && sizeToRead > 0 &&
+             (n = in.read(buffer, 0, (int) Math.min(signalAway, sizeToRead))) != -1; sizeToRead -= n) {
 
-            if(signalAway - n < 0){
-                bufferedOutputStream.write(buffer, 0, signalAway);
-                signal = buffer[signalAway];
-                bufferedOutputStream.write(buffer, signalAway+1, n-signalAway-1);
+            bufferedOutputStream.write(buffer, 0, n);
+            signalAway -= n;
 
-                sizeToRead++;
-                signalAway += BUFFER_SIZE - n;
-            } else {
-                bufferedOutputStream.write(buffer, 0, n);
-                signalAway -= n;
+            if(signalAway==0) {
+//                bufferedOutputStream.write(buffer, 0, signalAway);
+                signal = in.readByte();
+//                bufferedOutputStream.write(buffer, signalAway+1, n-signalAway-1);
+
+                signalAway = BUFFER_SIZE;
             }
+//            else {
+//                bufferedOutputStream.write(buffer, 0, n);
+//                signalAway -= n;
+//            }
 
             updater.continueProgress(fileSize - sizeToRead, fileSize);
         }
 
         bufferedOutputStream.close();
-        updater.endProgress(file);
+        if (signal == 1) updater.endProgress(file);
+        else updater.cancelProgress(file);
 
     }
 }
