@@ -4,7 +4,7 @@ import java.io.File;
 
 public interface IFTP {
 
-    int BUFFER_SIZE = 512*1024; // 512 KB
+    int BUFFER_SIZE = 64*1024; // 64 KB
 
     boolean isSending();
 

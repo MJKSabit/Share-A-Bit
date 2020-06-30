@@ -100,12 +100,18 @@ public class SimpleFTP implements IFTP {
 
             int n;
             long currentProgress = 0, totalProgress = data.getFile().length();
+            int signalAway = BUFFER_SIZE;
 
             data.getProgress().startProgress(data.getFile());
 
-            while ( (n =in.read(buffer, 0, buffer.length)) != -1) {
+            while ( (n = in.read(buffer, 0, Math.min(buffer.length, signalAway)) ) != -1) {
                 out.write(buffer, 0, n);
-                out.writeByte(data.isCancelled() ? 0 : 1);
+
+                signalAway -= n;
+                if (signalAway == 0) {
+                    out.writeByte(data.isCancelled() ? 0 : 1);
+                    signalAway = BUFFER_SIZE;
+                }
 
                 currentProgress += n;
                 data.getProgress().continueProgress(currentProgress, totalProgress);
@@ -114,6 +120,7 @@ public class SimpleFTP implements IFTP {
             }
 
             in.close();
+            out.flush();
             if (data.isCancelled()) data.getProgress().cancelProgress(data.getFile());
             else data.getProgress().endProgress(data.getFile());
         } else {
