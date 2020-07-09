@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import java.io.IOException;
 
 public class Start extends Controller{
+    public static String name = "Name";
 
     @FXML
     void startReceive(ActionEvent event) {

@@ -11,6 +11,8 @@ public class FXMain extends Application {
         Start startPage = JFXLoader.loadFXML("start");
         startPage.setStage(primaryStage);
         startPage.show("Hello World!");
+
+        primaryStage.setOnCloseRequest(event -> System.exit(0));
     }
 
     public static void main(String[] args) {
