@@ -37,7 +37,7 @@ public class ExtendedFTP implements IFTP {
                 addToSend(childPath, iFile, progress);
             }
         }
-        else simpleFTP.addToSend(parentPath, file, new Progress());
+        else simpleFTP.addToSend(parentPath, file, progress);
     }
 
     @Override

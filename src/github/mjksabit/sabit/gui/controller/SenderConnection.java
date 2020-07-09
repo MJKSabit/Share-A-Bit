@@ -4,6 +4,7 @@ import github.mjksabit.autoconnect.ClientSide;
 import github.mjksabit.autoconnect.ServerDiscoveryObserver;
 import github.mjksabit.sabit.cli.Main;
 import github.mjksabit.sabit.core.Sender;
+import github.mjksabit.sabit.gui.JFXLoader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,14 +37,14 @@ public class SenderConnection extends Controller implements ServerDiscoveryObser
     private ListView<String> receiverList;
 
     private Sender sender = null;
+    private String name;
 
-    @FXML
-    public void initialize() {
+    public void startSender(String name) {
         fileList.setItems(files);
         receiverList.setItems(receivers);
-
+        this.name = name;
         try {
-            sender = new Sender(Start.name, this);
+            sender = new Sender(name, this);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,7 +82,12 @@ public class SenderConnection extends Controller implements ServerDiscoveryObser
         } else {
             try {
                 Socket connectionSocket = new Socket(info.getAddress(), info.getPort());
-                sender.makeConnection(connectionSocket, Start.name);
+                String receiver = sender.makeConnection(connectionSocket, name);
+                Connected connected = JFXLoader.loadFXML("connected");
+                connected.setStage(getStage());
+                connected.setNames(name, receiver);
+                connected.show("Share A Bit");
+                connected.startConnection(sender, files);
             } catch (IOException e) {
                 e.printStackTrace();
             }

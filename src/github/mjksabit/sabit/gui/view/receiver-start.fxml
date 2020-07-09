@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="github.mjksabit.sabit.gui.controller.ReceiverConnection"
-            prefHeight="400.0" prefWidth="600.0">
-    <Label>Receiver</Label>
+<AnchorPane prefHeight="500.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="github.mjksabit.sabit.gui.controller.ReceiverConnection">
+   <children>
+      <Label layoutX="29.0" layoutY="171.0" prefHeight="37.0" prefWidth="246.0" text="Waiting for sender to connect...">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <ProgressBar layoutX="29.0" layoutY="230.0" prefHeight="20.0" prefWidth="246.0" />
+      <Button layoutX="14.0" layoutY="458.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="276.0" text="Cancel" />
+   </children>
 
 </AnchorPane>
