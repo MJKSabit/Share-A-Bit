@@ -7,7 +7,7 @@
    <children>
       <Button layoutX="116.0" layoutY="153.0" mnemonicParsing="false" onAction="#startSend" prefHeight="28.0" prefWidth="69.0" text="SEND" />
       <Button layoutX="116.0" layoutY="285.0" mnemonicParsing="false" onAction="#startReceive" text="RECEIVE" />
-      <TextField fx:id="nameText" layoutX="70.0" layoutY="24.0" promptText="Name" text="Share-A-Bit Client" />
+      <TextField fx:id="nameText" layoutX="70.0" layoutY="24.0" promptText="Name" text="Client" />
    </children>
 
 </AnchorPane>

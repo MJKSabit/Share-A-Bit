@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class JFXLoader {
     public static <T extends Controller> T loadFXML(String fxmlName) throws IOException {
-        String fxmlPath = "./view/" + fxmlName + ".fxml";
+        String fxmlPath = "view/" + fxmlName + ".fxml";
         FXMLLoader loader = new FXMLLoader(FXMain.class.getResource(fxmlPath));
 
         Parent rootNode = loader.load();

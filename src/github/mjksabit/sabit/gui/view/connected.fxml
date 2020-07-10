@@ -11,35 +11,35 @@
 
 <AnchorPane prefHeight="500.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="github.mjksabit.sabit.gui.controller.Connected">
    <children>
-      <Label fx:id="nameMy" alignment="CENTER_RIGHT" layoutX="12.0" layoutY="5.0" prefHeight="41.0" prefWidth="123.0" text="My Name">
+      <Label fx:id="nameMy" alignment="CENTER_RIGHT" layoutY="5.0" prefHeight="41.0" prefWidth="135.0" text="My Name">
          <padding>
             <Insets left="10.0" right="10.0" />
          </padding>
       </Label>
-      <Label layoutX="137.0" layoutY="17.0" text="&lt;=&gt;" />
-      <Label fx:id="nameOther" layoutX="160.0" layoutY="6.0" prefHeight="41.0" prefWidth="135.0" text="Other Name">
+      <Label layoutX="145.0" layoutY="17.0" text="-" />
+      <Label fx:id="nameOther" layoutX="160.0" layoutY="6.0" prefHeight="41.0" prefWidth="144.0" text="Other Name">
          <padding>
             <Insets left="10.0" right="10.0" />
          </padding>
       </Label>
-      <ListView fx:id="receiveList" layoutX="12.0" layoutY="127.0" prefHeight="113.0" prefWidth="277.0" />
+      <ListView fx:id="receiveList" layoutX="12.0" layoutY="135.0" prefHeight="105.0" prefWidth="277.0" />
       <Label layoutX="14.0" layoutY="47.0" text="Receiving" />
-      <Label layoutX="14.0" layoutY="109.0" text="Received" />
+      <Label layoutX="12.0" layoutY="114.0" text="Received" />
       <Label fx:id="receiveFileName" alignment="CENTER_RIGHT" layoutX="91.0" layoutY="47.0" prefHeight="18.0" prefWidth="200.0" text="File Name" />
-      <ProgressBar fx:id="receiveProgress" layoutX="91.0" layoutY="71.0" maxHeight="-Infinity" prefHeight="9.0" prefWidth="200.0" progress="0.0" />
-      <Label fx:id="receiveCurrentProgress" layoutX="91.0" layoutY="80.0" prefHeight="18.0" prefWidth="87.0" text="Received" />
-      <Label layoutX="182.0" layoutY="80.0" text="/" />
-      <Label fx:id="receiveTotalProgress" alignment="CENTER_RIGHT" layoutX="193.0" layoutY="80.0" prefHeight="18.0" prefWidth="97.0" text="Total" />
-      <Line endX="113.0" layoutX="187.0" layoutY="103.0" startX="-102.5" />
+      <ProgressBar fx:id="receiveProgress" layoutX="12.0" layoutY="67.0" maxHeight="-Infinity" prefHeight="26.0" prefWidth="283.0" progress="0.0" style="-fx-background-insets: 0; -fx-padding: 1px;" />
+      <Label fx:id="receiveCurrentProgress" layoutX="25.0" layoutY="91.0" prefHeight="18.0" prefWidth="123.0" text="Received" />
+      <Label layoutX="148.0" layoutY="91.0" text="/" />
+      <Label fx:id="receiveTotalProgress" alignment="CENTER_RIGHT" layoutX="155.0" layoutY="91.0" prefHeight="18.0" prefWidth="123.0" text="Total" />
+      <Line endX="113.0" layoutX="181.0" layoutY="119.0" startX="-102.5" />
       <ListView fx:id="sendList" layoutX="16.0" layoutY="330.0" prefHeight="122.0" prefWidth="277.0" />
       <Label layoutX="18.0" layoutY="250.0" text="Sending" />
       <Label layoutX="18.0" layoutY="312.0" text="Sending" />
       <Label fx:id="sendFileName" alignment="CENTER_RIGHT" layoutX="95.0" layoutY="250.0" prefHeight="18.0" prefWidth="200.0" text="File Name" />
-      <ProgressBar fx:id="sendProgress" layoutX="95.0" layoutY="274.0" maxHeight="-Infinity" prefHeight="9.0" prefWidth="200.0" progress="0.0" />
-      <Label fx:id="sendCurrentProgress" layoutX="95.0" layoutY="283.0" prefHeight="18.0" prefWidth="87.0" text="Sent" />
-      <Label layoutX="186.0" layoutY="283.0" text="/" />
-      <Label fx:id="sendTotalProgress" alignment="CENTER_RIGHT" layoutX="197.0" layoutY="283.0" prefHeight="18.0" prefWidth="97.0" text="Total" />
-      <Line endX="113.0" layoutX="191.0" layoutY="306.0" startX="-102.5" />
+      <ProgressBar fx:id="sendProgress" layoutX="95.0" layoutY="272.0" maxHeight="-Infinity" prefWidth="200.0" progress="0.0" style="-fx-background-insets: 0; -fx-padding: 1px;" />
+      <Label fx:id="sendCurrentProgress" layoutX="95.0" layoutY="298.0" prefHeight="18.0" prefWidth="87.0" text="Sent" />
+      <Label layoutX="186.0" layoutY="298.0" text="/" />
+      <Label fx:id="sendTotalProgress" alignment="CENTER_RIGHT" layoutX="197.0" layoutY="298.0" prefHeight="18.0" prefWidth="97.0" text="Total" />
+      <Line endX="113.0" layoutX="191.0" layoutY="319.0" startX="-102.5" />
       <Button layoutX="18.0" layoutY="458.0" mnemonicParsing="false" onAction="#sendFile" text="+ File" />
       <Button layoutX="74.0" layoutY="458.0" mnemonicParsing="false" onAction="#sendFolder" text="+ Folder" />
       <Button layoutX="214.0" layoutY="458.0" mnemonicParsing="false" onAction="#cancelAll" text="Cancel All" />

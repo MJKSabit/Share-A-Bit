@@ -10,7 +10,7 @@ public class FXMain extends Application {
     public void start(Stage primaryStage) throws Exception {
         Start startPage = JFXLoader.loadFXML("start");
         startPage.setStage(primaryStage);
-        startPage.show("Hello World!");
+        startPage.show("Share A Bit");
 
         primaryStage.setOnCloseRequest(event -> System.exit(0));
     }
