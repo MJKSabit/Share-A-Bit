@@ -47,7 +47,7 @@
          </font>
       </Label>
       <JFXButton buttonType="RAISED" layoutX="8.0" layoutY="458.0" onAction="#cancelSendingAll" prefHeight="36.0" prefWidth="165.0" style="-fx-background-color: #ff4d4d;" text="Cancel Sending" textFill="WHITE" />
-      <Label fx:id="speedText" alignment="CENTER_RIGHT" layoutX="150.0" layoutY="169.0" prefHeight="29.0" prefWidth="104.0" text="2.251">
+      <Label fx:id="speedText" alignment="CENTER_RIGHT" layoutX="105.0" layoutY="169.0" prefHeight="29.0" prefWidth="165.0" text="0 MB">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
@@ -59,7 +59,7 @@
             </ImageView>
          </graphic>
       </Label>
-      <Label layoutX="257.0" layoutY="177.0" text="MB/s" />
+      <Label layoutX="272.0" layoutY="177.0" text="/s" />
       <Pane fx:id="sendPane" layoutX="10.0" layoutY="51.0" prefHeight="55.0" prefWidth="280.0" style="-fx-background-color: #00000020; -fx-background-radius: 5px;" visible="false">
          <children>
             <Label layoutX="7.0" layoutY="3.0" text="Sending:" />

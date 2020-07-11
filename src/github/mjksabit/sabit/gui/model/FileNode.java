@@ -41,7 +41,7 @@ public class FileNode extends AnchorPane {
     }
 
     public void markDone() {
-        this.setStyle("-fx-background-color: #53ff5c;");
+        totalFileSize.setStyle("-fx-background-color: #8bff92; -fx-background-radius: 5px");
     }
 
     @FXML

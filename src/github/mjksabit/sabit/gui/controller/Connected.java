@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
@@ -23,10 +24,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.SocketException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Connected extends Controller {
     Connection connection;
     String fileSaveDirectory = ".";
+
+    final static int UPDATE_TIME = 1;
+    volatile Long byteTransferredInTime = 0l;
+
+    ExecutorService speedUpdaterThread = Executors.newSingleThreadExecutor();
 
     private final static int bytePerMB = 1024*1024;
     private String getInMB(long size) {
@@ -34,6 +42,7 @@ public class Connected extends Controller {
     }
 
     private class ReceiveProgress implements IFTP.ProgressUpdater {
+        private long lastProgress = 0;
         private boolean firstTime = true;
         private long fileSize;
 
@@ -47,6 +56,8 @@ public class Connected extends Controller {
 
         @Override
         public void continueProgress(long currentProgress, long totalProgress) {
+            byteTransferredInTime += currentProgress - lastProgress;
+            lastProgress = currentProgress;
             if (firstTime){
                 firstTime = false;
                 fileSize = totalProgress;
@@ -71,6 +82,7 @@ public class Connected extends Controller {
 
         @Override
         public void endProgress(File file) {
+            byteTransferredInTime += fileSize - lastProgress;
             Platform.runLater(() -> {
                 transmissionList.add(new FileNode(false, file.getName(), fileSize));
                 receivePane.setVisible(false);
@@ -79,6 +91,7 @@ public class Connected extends Controller {
     }
 
     private class SendProgress implements IFTP.ProgressUpdater {
+        private long lastProgress = 0;
         private int index;
 
         @Override
@@ -94,6 +107,8 @@ public class Connected extends Controller {
 
         @Override
         public void continueProgress(long currentProgress, long totalProgress) {
+            byteTransferredInTime += currentProgress - lastProgress;
+            lastProgress = currentProgress;
             double percentage = (double) currentProgress / totalProgress;
             String string = getInMB(currentProgress);
             Platform.runLater(() -> {
@@ -113,6 +128,7 @@ public class Connected extends Controller {
 
         @Override
         public void endProgress(File file) {
+            byteTransferredInTime += file.length() - lastProgress;
             Platform.runLater(() -> {
                 transmissionList.get(index).markDone();
                 sendPane.setVisible(false);
@@ -132,8 +148,23 @@ public class Connected extends Controller {
         this.connection = connection;
 
         connection.setFileSaveDirectory(fileSaveDirectory);
-
         connection.startReceiving(new ReceiveProgress());
+
+        speedUpdaterThread.execute(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(UPDATE_TIME*1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                synchronized (byteTransferredInTime) {
+                    long transferredNow = byteTransferredInTime;
+                    byteTransferredInTime = 0l;
+                    Platform.runLater(() -> speedText.setText(getInMB(transferredNow/UPDATE_TIME)));
+                }
+            }
+        });
 
         for (String sendFile : sendFiles)
             connection.sendFile(new File(sendFile), new SendProgress());
@@ -194,9 +225,8 @@ public class Connected extends Controller {
     @FXML
     void endShare(ActionEvent event) {
         if (connection.isActive()) {
-            JFXAlert alert = new JFXAlert(getStage());
-            alert.setContent(new Label("Still Transferring Files, Cancel on both sides!"));
-            alert.setHideOnEscape(true);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Still Transferring Files, Cancel on both sides!");
             alert.setHeaderText("Connection Active");
             alert.show();
         }
