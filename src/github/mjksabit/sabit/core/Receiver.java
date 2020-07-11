@@ -25,10 +25,14 @@ public class Receiver extends Connection {
         return makeConnection(socket, name);
     }
 
+    public void stopListening() throws IOException {
+        serverSide.stopListening();
+    }
+
     @Override
     public void close() throws IOException {
         super.close();
-        connectionSocket.close();
-        serverSocket.close();
+        if (connectionSocket!=null) connectionSocket.close();
+        if (serverSocket!=null) serverSocket.close();
     }
 }

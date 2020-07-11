@@ -81,8 +81,10 @@ public abstract class Connection implements Closeable {
 
     @Override
     public void close() throws IOException {
-        outputStream.writeUTF(FINISHED_COMMAND);
-        inputStream.close();
-        outputStream.close();
+        if (outputStream != null) {
+            outputStream.writeUTF(FINISHED_COMMAND);
+            outputStream.close();
+        }
+        if (inputStream != null) inputStream.close();
     }
 }

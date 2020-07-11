@@ -1,20 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXProgressBar?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="github.mjksabit.sabit.gui.controller.ReceiverConnection">
+<AnchorPane prefHeight="500.0" prefWidth="300.0" style="-fx-background-color: #e9f5fb;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="github.mjksabit.sabit.gui.controller.ReceiverConnection">
    <children>
-      <Label layoutX="29.0" layoutY="171.0" prefHeight="37.0" prefWidth="246.0" text="Waiting for sender to connect...">
+      <Pane prefHeight="55.0" prefWidth="300.0" style="-fx-background-color: #2c9dd7;">
+         <children>
+            <Label layoutX="24.0" layoutY="9.0" prefHeight="40.0" prefWidth="181.0" text="Share A BIT" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Label layoutX="28.0" layoutY="361.0" prefHeight="37.0" prefWidth="246.0" text="Waiting for sender to connect...">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <ProgressBar layoutX="29.0" layoutY="230.0" prefHeight="20.0" prefWidth="246.0" />
-      <Button layoutX="14.0" layoutY="458.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="276.0" text="Cancel" />
+      <JFXProgressBar layoutX="28.0" layoutY="408.0" prefHeight="4.0" prefWidth="246.0" />
+      <JFXButton buttonType="RAISED" layoutX="27.0" layoutY="452.0" onAction="#cancelReceiving" prefHeight="28.0" prefWidth="246.0" style="-fx-background-color: #ff4d4d;" text="Cancel" textFill="WHITE" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="75.0" layoutY="99.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/account.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="usernameText" alignment="CENTER" layoutX="51.0" layoutY="263.0" prefHeight="18.0" prefWidth="200.0" text="USERNAME">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
    </children>
 
 </AnchorPane>

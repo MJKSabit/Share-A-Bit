@@ -72,7 +72,7 @@
             </Pane>
             <Pane fx:id="aboutPane" layoutX="10.0" layoutY="10.0" prefHeight="455.0" prefWidth="300.0">
                <children>
-                  <JFXButton fx:id="updateChecker" buttonType="RAISED" layoutX="25.0" layoutY="330.0" onAction="#checkUpdate" prefHeight="40.0" prefWidth="235.0" style="-fx-background-color: #3da1db;" text="Check for update(s)" textFill="WHITE" />
+                  <JFXButton fx:id="updateChecker" buttonType="RAISED" layoutX="33.0" layoutY="330.0" onAction="#checkUpdate" prefHeight="40.0" prefWidth="235.0" style="-fx-background-color: #3da1db;" text="Check for update(s)" textFill="WHITE" />
                   <Label layoutX="17.0" layoutY="73.0" text="Md. Jehadul Karim (Sabit)">
                      <font>
                         <Font name="System Bold" size="20.0" />
