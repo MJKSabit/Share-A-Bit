@@ -20,4 +20,9 @@ public class JFXLoader {
 
         return controller;
     }
+
+    public static FXMLLoader getFXMLLoader(String fxmlName) throws IOException {
+        String fxmlPath = "view/" + fxmlName + ".fxml";
+        return new FXMLLoader(FXMain.class.getResource(fxmlPath));
+    }
 }

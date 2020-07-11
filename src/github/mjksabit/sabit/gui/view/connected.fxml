@@ -1,48 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Line?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="500.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="github.mjksabit.sabit.gui.controller.Connected">
+<AnchorPane prefHeight="500.0" prefWidth="300.0" style="-fx-background-color: #e9f5fb;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="github.mjksabit.sabit.gui.controller.Connected">
    <children>
-      <Label fx:id="nameMy" alignment="CENTER_RIGHT" layoutY="5.0" prefHeight="41.0" prefWidth="135.0" text="My Name">
-         <padding>
-            <Insets left="10.0" right="10.0" />
-         </padding>
+      <Pane fx:id="topPane" layoutY="-1.0" prefHeight="55.0" prefWidth="300.0" style="-fx-background-color: #2c9dd7;">
+         <children>
+            <Label fx:id="otherUser" layoutX="24.0" layoutY="6.0" prefHeight="40.0" prefWidth="181.0" text="Other User" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="193.0" layoutY="400.0" onAction="#addFolder" style="-fx-background-color: #33cc33;" text="+ Folder">
+         <graphic>
+            <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/add-folder.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="243.0" layoutY="401.0" onAction="#addFile" style="-fx-background-color: #33cc33;" text="+ Folder">
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/add-file.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <ListView fx:id="transferFileList" layoutY="99.0" prefHeight="293.0" prefWidth="300.0" />
+      <Label layoutX="14.0" layoutY="67.0" text="Transfers">
+         <font>
+            <Font size="16.0" />
+         </font>
       </Label>
-      <Label layoutX="145.0" layoutY="17.0" text="-" />
-      <Label fx:id="nameOther" layoutX="160.0" layoutY="6.0" prefHeight="41.0" prefWidth="144.0" text="Other Name">
-         <padding>
-            <Insets left="10.0" right="10.0" />
-         </padding>
+      <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="400.0" onAction="#cancelSendingAll" prefHeight="36.0" prefWidth="165.0" style="-fx-background-color: #ff4d4d;" text="Cancel Sending" textFill="WHITE" />
+      <Label fx:id="speedText" alignment="CENTER_RIGHT" layoutX="146.0" layoutY="64.0" prefHeight="29.0" prefWidth="104.0" text="2.251">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/up-down.png" />
+               </image>
+            </ImageView>
+         </graphic>
       </Label>
-      <ListView fx:id="receiveList" layoutX="12.0" layoutY="135.0" prefHeight="105.0" prefWidth="277.0" />
-      <Label layoutX="14.0" layoutY="47.0" text="Receiving" />
-      <Label layoutX="12.0" layoutY="114.0" text="Received" />
-      <Label fx:id="receiveFileName" alignment="CENTER_RIGHT" layoutX="91.0" layoutY="47.0" prefHeight="18.0" prefWidth="200.0" text="File Name" />
-      <ProgressBar fx:id="receiveProgress" layoutX="12.0" layoutY="67.0" maxHeight="-Infinity" prefHeight="26.0" prefWidth="283.0" progress="0.0" style="-fx-background-insets: 0; -fx-padding: 1px;" />
-      <Label fx:id="receiveCurrentProgress" layoutX="25.0" layoutY="91.0" prefHeight="18.0" prefWidth="123.0" text="Received" />
-      <Label layoutX="148.0" layoutY="91.0" text="/" />
-      <Label fx:id="receiveTotalProgress" alignment="CENTER_RIGHT" layoutX="155.0" layoutY="91.0" prefHeight="18.0" prefWidth="123.0" text="Total" />
-      <Line endX="113.0" layoutX="181.0" layoutY="119.0" startX="-102.5" />
-      <ListView fx:id="sendList" layoutX="16.0" layoutY="330.0" prefHeight="122.0" prefWidth="277.0" />
-      <Label layoutX="18.0" layoutY="250.0" text="Sending" />
-      <Label layoutX="18.0" layoutY="312.0" text="Sending" />
-      <Label fx:id="sendFileName" alignment="CENTER_RIGHT" layoutX="95.0" layoutY="250.0" prefHeight="18.0" prefWidth="200.0" text="File Name" />
-      <ProgressBar fx:id="sendProgress" layoutX="95.0" layoutY="272.0" maxHeight="-Infinity" prefWidth="200.0" progress="0.0" style="-fx-background-insets: 0; -fx-padding: 1px;" />
-      <Label fx:id="sendCurrentProgress" layoutX="95.0" layoutY="298.0" prefHeight="18.0" prefWidth="87.0" text="Sent" />
-      <Label layoutX="186.0" layoutY="298.0" text="/" />
-      <Label fx:id="sendTotalProgress" alignment="CENTER_RIGHT" layoutX="197.0" layoutY="298.0" prefHeight="18.0" prefWidth="97.0" text="Total" />
-      <Line endX="113.0" layoutX="191.0" layoutY="319.0" startX="-102.5" />
-      <Button layoutX="18.0" layoutY="458.0" mnemonicParsing="false" onAction="#sendFile" text="+ File" />
-      <Button layoutX="74.0" layoutY="458.0" mnemonicParsing="false" onAction="#sendFolder" text="+ Folder" />
-      <Button layoutX="214.0" layoutY="458.0" mnemonicParsing="false" onAction="#cancelAll" text="Cancel All" />
-      <Button layoutX="14.0" layoutY="278.0" mnemonicParsing="false" onAction="#cancelCurrent" text="Cancel" />
+      <Label layoutX="253.0" layoutY="72.0" text="MB/s" />
    </children>
 </AnchorPane>

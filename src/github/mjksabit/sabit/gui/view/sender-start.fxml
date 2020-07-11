@@ -40,7 +40,7 @@
                </font>
             </Label>
             <ListView fx:id="fileList" layoutY="44.0" prefHeight="292.0" prefWidth="300.0" />
-            <JFXButton contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="201.0" layoutY="3.0" onAction="#addFolder" style="-fx-background-color: #99ccff;" text="+ Folder">
+            <JFXButton contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="201.0" layoutY="3.0" onAction="#addFolder" style="-fx-background-color: #33cc33;" text="+ Folder">
                <graphic>
                   <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -48,7 +48,7 @@
                      </image>
                   </ImageView>
                </graphic></JFXButton>
-            <JFXButton contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="251.0" layoutY="4.0" onAction="#addFile" style="-fx-background-color: #99ccff;" text="+ Folder">
+            <JFXButton contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="251.0" layoutY="4.0" onAction="#addFile" style="-fx-background-color: #33cc33;" text="+ Folder">
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -57,7 +57,7 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="357.0" onAction="#senderSelection" prefHeight="28.0" prefWidth="260.0" style="-fx-background-color: #33cc33;" text="Next &gt;&gt;" textFill="WHITE" />
+            <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="357.0" onAction="#senderSelection" prefHeight="28.0" prefWidth="260.0" style="-fx-background-color: #2c9dd7;" text="Next &gt;&gt;" textFill="WHITE" />
          </children>
       </Pane>
    </children>
