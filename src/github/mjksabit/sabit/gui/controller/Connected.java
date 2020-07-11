@@ -24,6 +24,10 @@ public class Connected extends Controller implements IFTP.ProgressUpdater {
     final int bytePerMB = 1024*1024;
     Connection connection;
 
+    public void setFileSaveDirectory (String fileSaveDirectory) {
+        connection.setFileSaveDirectory(fileSaveDirectory);
+    }
+
     public void setNames(String myName, String otherName) {
         nameMy.setText(myName);
         nameOther.setText(otherName);

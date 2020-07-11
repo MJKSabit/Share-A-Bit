@@ -38,11 +38,13 @@ public class SenderConnection extends Controller implements ServerDiscoveryObser
 
     private Sender sender = null;
     private String name;
+    private String fileSaveDirectory;
 
-    public void startSender(String name) {
+    public void startSender(String name, String fileSaveDirectory) {
         fileList.setItems(files);
         receiverList.setItems(receivers);
         this.name = name;
+        this.fileSaveDirectory = fileSaveDirectory;
         try {
             sender = new Sender(name, this);
         } catch (IOException e) {
@@ -84,9 +86,10 @@ public class SenderConnection extends Controller implements ServerDiscoveryObser
                 Socket connectionSocket = new Socket(info.getAddress(), info.getPort());
                 String receiver = sender.makeConnection(connectionSocket, name);
                 Connected connected = JFXLoader.loadFXML("connected");
+                connected.setFileSaveDirectory(fileSaveDirectory);
                 connected.setStage(getStage());
                 connected.setNames(name, receiver);
-                connected.show("Share A Bit");
+                connected.show("Share A BIT");
                 connected.startConnection(sender, files);
             } catch (IOException e) {
                 e.printStackTrace();

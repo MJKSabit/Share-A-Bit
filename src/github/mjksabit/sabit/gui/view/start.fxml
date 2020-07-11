@@ -1,13 +1,149 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="github.mjksabit.sabit.gui.controller.Start">
+<AnchorPane prefHeight="500.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="github.mjksabit.sabit.gui.controller.Start">
    <children>
-      <Button layoutX="116.0" layoutY="153.0" mnemonicParsing="false" onAction="#startSend" prefHeight="28.0" prefWidth="69.0" text="SEND" />
-      <Button layoutX="116.0" layoutY="285.0" mnemonicParsing="false" onAction="#startReceive" text="RECEIVE" />
-      <TextField fx:id="nameText" layoutX="70.0" layoutY="24.0" promptText="Name" text="Client" />
+      <Pane fx:id="topPane" layoutY="-5.0" prefHeight="55.0" prefWidth="300.0" style="-fx-background-color: #2c9dd7;">
+         <children>
+            <Label layoutX="24.0" layoutY="9.0" prefHeight="40.0" prefWidth="181.0" text="Share A BIT" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <StackPane fx:id="contentStack" layoutY="51.0" prefHeight="404.0" prefWidth="300.0" style="-fx-background-color: #e9f5fb;">
+         <children>
+            <Pane fx:id="homePane" disable="true" prefHeight="455.0" prefWidth="300.0" visible="false">
+               <children>
+                  <JFXButton fx:id="sendButton" contentDisplay="TOP" graphicTextGap="20.0" layoutX="75.0" layoutY="17.0" onAction="#startSend" prefHeight="180.0" prefWidth="150.0" ripplerFill="WHITE" style="-fx-background-color: #2c9dd7; -fx-background-radius: 100px 100px 0px  0px;" text="SEND" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/send-white.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="receiveButton" contentDisplay="BOTTOM" graphicTextGap="20.0" layoutX="75.0" layoutY="200.0" onAction="#startReceive" prefHeight="180.0" prefWidth="150.0" ripplerFill="WHITE" style="-fx-background-color: #2c9dd7; -fx-background-radius: 0px 0px 100px  100px;" text="RECEIVE" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/receive-white.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </Pane>
+            <Pane fx:id="settingsPane" disable="true" layoutX="10.0" layoutY="10.0" prefHeight="455.0" prefWidth="300.0" visible="false">
+               <children>
+                  <JFXTextField fx:id="nameText" focusColor="#53acdf" labelFloat="true" layoutX="25.0" layoutY="84.0" prefHeight="40.0" prefWidth="250.0" promptText="Name" text="Sabit" unFocusColor="#93cbeb" />
+                  <JFXTextField fx:id="receiveDirectory" editable="false" focusColor="#53acdf" labelFloat="true" layoutX="25.0" layoutY="327.0" prefHeight="40.0" prefWidth="210.0" promptText="Receive Directory" text="." unFocusColor="#93cbeb" />
+                  <JFXButton fx:id="browseDirectory" layoutX="235.0" layoutY="327.0" onAction="#browseReceiveDirectory" prefHeight="40.0" prefWidth="40.0" ripplerFill="#b27878" style="-fx-background-color: #53acdf;" text="..." textFill="WHITE" />
+                  <Label layoutX="25.0" layoutY="29.0" text="User Info">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="aboutPane" layoutX="10.0" layoutY="10.0" prefHeight="455.0" prefWidth="300.0">
+               <children>
+                  <JFXButton fx:id="updateChecker" buttonType="RAISED" layoutX="25.0" layoutY="330.0" onAction="#checkUpdate" prefHeight="40.0" prefWidth="235.0" style="-fx-background-color: #3da1db;" text="Check for update(s)" textFill="WHITE" />
+                  <Label layoutX="17.0" layoutY="73.0" text="Md. Jehadul Karim (Sabit)">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="219.0" layoutY="5.0" text="Version 0.1" />
+                  <Label layoutX="26.0" layoutY="43.0" text="Developed By" />
+                  <Label layoutX="126.0" layoutY="117.0" prefWidth="68.0" text="MJKSabit">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="88.0" layoutY="112.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/github.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="126.0" layoutY="153.0" prefHeight="22.0" prefWidth="140.0" text="MJKSabit.github.io">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="91.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/www.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </children>
+      </StackPane>
+      <Pane fx:id="bottomNavigation" layoutY="455.0" prefHeight="48.0" prefWidth="300.0" style="-fx-background-color: #3099d7;">
+         <children>
+            <JFXButton fx:id="homeButton" onAction="#showHome" prefHeight="48.0" prefWidth="99.0" text="Home" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="28.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/home.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="settingsButton" layoutX="101.0" onAction="#showSettings" prefHeight="48.0" prefWidth="99.0" text="Settings" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="28.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/settings.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="aboutButton" layoutX="200.0" onAction="#showAbout" prefHeight="48.0" prefWidth="99.0" text="About" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="28.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/info.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </Pane>
    </children>
 
 </AnchorPane>

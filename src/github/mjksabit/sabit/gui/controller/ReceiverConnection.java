@@ -14,21 +14,23 @@ public class ReceiverConnection extends Controller {
     Receiver receiver = null;
     String name;
     String senderName;
+    String fileSaveDirectory;
 
-    public void startReceiver(String name) {
+    public void startReceiver(String name, String fileSaveDirectory) {
         this.name = name;
+        this.fileSaveDirectory = fileSaveDirectory;
         receiver = new Receiver(name);
 
         new Thread(() -> {
             try {
-                System.out.println("Where are you Sender?");
                 senderName = receiver.waitForSender();
 
                 Connected connected = JFXLoader.loadFXML("connected");
+                connected.setFileSaveDirectory(fileSaveDirectory);
 
                 Platform.runLater(() -> {
                     connected.setStage(getStage());
-                    connected.show("Share A Bit");
+                    connected.show("Share A BIT");
                     connected.setNames(name, senderName);
                 });
 
