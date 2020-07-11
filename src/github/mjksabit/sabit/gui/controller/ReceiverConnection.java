@@ -2,7 +2,6 @@ package github.mjksabit.sabit.gui.controller;
 
 
 import github.mjksabit.sabit.core.Receiver;
-import github.mjksabit.sabit.core.Sender;
 import github.mjksabit.sabit.gui.JFXLoader;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;

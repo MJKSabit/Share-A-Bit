@@ -1,10 +1,12 @@
 package github.mjksabit.sabit.gui.controller;
 
+import com.jfoenix.controls.JFXProgressBar;
 import github.mjksabit.autoconnect.ClientSide;
 import github.mjksabit.autoconnect.ServerDiscoveryObserver;
 import github.mjksabit.sabit.cli.Main;
 import github.mjksabit.sabit.core.Sender;
 import github.mjksabit.sabit.gui.JFXLoader;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,6 +14,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -31,6 +35,15 @@ public class SenderConnection extends Controller implements ServerDiscoveryObser
     Map<String, Sender.ServerInfo> servers = new HashMap<>();
 
     @FXML
+    private Pane fileSelectionPane;
+
+    @FXML
+    private Pane receiverSelectionPane;
+
+    @FXML
+    private JFXProgressBar searchRecieverProgress;
+
+    @FXML
     private ListView<String> fileList;
 
     @FXML
@@ -45,11 +58,6 @@ public class SenderConnection extends Controller implements ServerDiscoveryObser
         receiverList.setItems(receivers);
         this.name = name;
         this.fileSaveDirectory = fileSaveDirectory;
-        try {
-            sender = new Sender(name, this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @FXML
@@ -100,7 +108,42 @@ public class SenderConnection extends Controller implements ServerDiscoveryObser
     @Override
     public void serverDiscovered(ClientSide.ServerInfo serverInfo) {
         Sender.ServerInfo info = new Sender.ServerInfo(serverInfo);
-        receivers.add(info.getName());
+        Platform.runLater(() -> receivers.add(info.getName()));
         servers.put(info.getName(), info);
+    }
+
+    @FXML
+    void senderSelection(ActionEvent event) {
+        fileSelectionPane.setVisible(false);
+        fileSelectionPane.setDisable(true);
+
+        receiverSelectionPane.setVisible(true);
+        receiverSelectionPane.setDisable(false);
+
+        new Thread( () -> {
+            Platform.runLater(() -> {
+                searchRecieverProgress.setVisible(true);
+                searchRecieverProgress.setProgress(JFXProgressBar.INDETERMINATE_PROGRESS);
+                receivers.clear();
+            });
+            try {
+                sender = new Sender(name, this);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Platform.runLater(() -> searchRecieverProgress.setVisible(true));
+        }).start();
+    }
+
+    @FXML
+    void cancelSending(ActionEvent event) {
+        Start startPage = null;
+        try {
+            startPage = JFXLoader.loadFXML("start");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        startPage.setStage(getStage());
+        startPage.show("Share A BIT");
     }
 }

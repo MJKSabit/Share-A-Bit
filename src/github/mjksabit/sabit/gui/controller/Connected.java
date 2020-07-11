@@ -23,9 +23,10 @@ import java.util.List;
 public class Connected extends Controller implements IFTP.ProgressUpdater {
     final int bytePerMB = 1024*1024;
     Connection connection;
+    String fileSaveDirectory;
 
     public void setFileSaveDirectory (String fileSaveDirectory) {
-        connection.setFileSaveDirectory(fileSaveDirectory);
+        this.fileSaveDirectory = fileSaveDirectory;
     }
 
     public void setNames(String myName, String otherName) {
@@ -36,6 +37,8 @@ public class Connected extends Controller implements IFTP.ProgressUpdater {
     public void startConnection(Connection connection, ObservableList<String> sendFiles) throws SocketException, FileNotFoundException {
         this.connection = connection;
         receiveList.setItems(receiveFileList);
+
+        connection.setFileSaveDirectory(fileSaveDirectory);
 
         connection.startReceiving(new IFTP.ProgressUpdater() {
             @Override
