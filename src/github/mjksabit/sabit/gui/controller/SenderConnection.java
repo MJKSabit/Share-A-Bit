@@ -131,7 +131,7 @@ public class SenderConnection extends Controller implements ServerDiscoveryObser
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Platform.runLater(() -> searchRecieverProgress.setVisible(true));
+            Platform.runLater(() -> searchRecieverProgress.setVisible(false));
         }).start();
     }
 
