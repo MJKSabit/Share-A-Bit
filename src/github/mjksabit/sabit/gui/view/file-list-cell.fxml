@@ -10,7 +10,7 @@
    <children>
       <Label fx:id="fileNameLabel" layoutX="59.0" layoutY="6.0" prefHeight="25.0" prefWidth="197.0" text="File Name" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="6.0">
          <font>
-            <Font size="16.0" />
+            <Font name="System Bold" size="16.0" />
          </font>
       </Label>
       <Label fx:id="totalFileSize" alignment="CENTER_RIGHT" layoutX="179.0" layoutY="31.0" prefHeight="18.0" prefWidth="80.0" text="0 MB" textFill="#727272" />

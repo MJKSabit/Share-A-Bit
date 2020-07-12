@@ -79,6 +79,10 @@ public abstract class Connection implements Closeable {
         return ftp.isReceiving() || ftp.isSending();
     }
 
+    public boolean isSending() {
+        return ftp.isSending();
+    }
+
     @Override
     public void close() throws IOException {
         if (outputStream != null) {

@@ -1,0 +1,27 @@
+.action-button {
+    -fx-background-color: #3da1db;
+    -fx-text-fill: white;
+}
+
+.cancel-button {
+    -fx-background-color:  #ff4d4d;
+    -fx-text-fill: white;
+}
+
+.confirm-button {
+    -fx-background-color: #33cc33;
+    -fx-text-fill: white;
+}
+
+.top-pane {
+    -fx-background-color:  #2c9dd7;
+}
+
+.top-pane > Label {
+    -fx-text-fill: white;
+}
+
+.main-container {
+    -fx-background-color: #e9f5fb;
+
+}

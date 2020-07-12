@@ -14,12 +14,17 @@
    <children>
       <Pane fx:id="topPane" layoutY="-1.0" prefHeight="47.0" prefWidth="300.0" style="-fx-background-color: #2c9dd7;">
          <children>
-            <Label fx:id="otherUser" layoutX="18.0" layoutY="2.0" prefHeight="40.0" prefWidth="181.0" text="Other User" textFill="WHITE">
+            <Label fx:id="otherUser" layoutX="50.0" layoutY="2.0" prefHeight="42.0" prefWidth="244.0" text="Other User" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="30.0" />
                </font>
             </Label>
-            <JFXButton layoutX="242.0" layoutY="6.0" onAction="#endShare" prefHeight="36.0" prefWidth="53.0" style="-fx-background-color: #ff4d4d;" text="End" textFill="WHITE" />
+            <JFXButton layoutX="251.0" layoutY="6.0" onAction="#endShare" prefHeight="36.0" prefWidth="44.0" style="-fx-background-color: #ff4d4d;" text="End" textFill="WHITE" />
+            <ImageView fitHeight="36.0" fitWidth="34.0" layoutX="6.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/share-a-bit.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
       <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="201.0" layoutY="458.0" onAction="#addFolder" style="-fx-background-color: #33cc33;" text="+ Folder">

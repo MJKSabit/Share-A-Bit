@@ -1,6 +1,5 @@
 package github.mjksabit.sabit.gui.controller;
 
-import com.jfoenix.controls.JFXAlert;
 import com.jfoenix.controls.JFXProgressBar;
 import github.mjksabit.sabit.core.Connection;
 import github.mjksabit.sabit.core.ftp.IFTP;
@@ -36,6 +35,8 @@ public class Connected extends Controller {
 
     ExecutorService speedUpdaterThread = Executors.newSingleThreadExecutor();
 
+    private volatile boolean isReceiving = false;
+
     private final static int bytePerMB = 1024*1024;
     private String getInMB(long size) {
         return String.format("%.3f MB", (double) size / bytePerMB);
@@ -52,6 +53,8 @@ public class Connected extends Controller {
                 receiveFileNameText.setText(file.getName());
                 receivePane.setVisible(true);
             });
+            lastProgress = 0;
+            isReceiving = true;
         }
 
         @Override
@@ -78,6 +81,7 @@ public class Connected extends Controller {
                 receiveProgressBar.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
                 receiveFileNameText.setText("Canceled");
             });
+            isReceiving = false;
         }
 
         @Override
@@ -87,6 +91,7 @@ public class Connected extends Controller {
                 transmissionList.add(new FileNode(false, file.getName(), fileSize));
                 receivePane.setVisible(false);
             });
+            isReceiving = false;
         }
     }
 
@@ -103,6 +108,7 @@ public class Connected extends Controller {
                 transmissionList.add(new FileNode(true, file.getName(), file.length()));
                 sendTotalInMB.setText(getInMB(file.length()));
             });
+            lastProgress = 0;
         }
 
         @Override
@@ -224,7 +230,7 @@ public class Connected extends Controller {
 
     @FXML
     void endShare(ActionEvent event) {
-        if (connection.isActive()) {
+        if (connection.isSending() || isReceiving) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Still Transferring Files, Cancel on both sides!");
             alert.setHeaderText("Connection Active");
@@ -233,12 +239,18 @@ public class Connected extends Controller {
         else {
             try {
                 connection.close();
-                Start startPage = JFXLoader.loadFXML("start");
-                startPage.setStage(getStage());
-                startPage.show("Share A BIT");
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            Start startPage = null;
+            try {
+                startPage = JFXLoader.loadFXML("start");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            startPage.setStage(getStage());
+            startPage.show("Share A BIT");
         }
     }
 

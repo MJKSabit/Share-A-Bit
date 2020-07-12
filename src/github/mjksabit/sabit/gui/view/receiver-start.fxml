@@ -13,11 +13,16 @@
    <children>
       <Pane prefHeight="55.0" prefWidth="300.0" style="-fx-background-color: #2c9dd7;">
          <children>
-            <Label layoutX="24.0" layoutY="9.0" prefHeight="40.0" prefWidth="181.0" text="Share A BIT" textFill="WHITE">
+            <Label layoutX="60.0" layoutY="7.0" prefHeight="40.0" prefWidth="181.0" text="Share A BIT" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="30.0" />
                </font>
             </Label>
+            <ImageView fitHeight="36.0" fitWidth="34.0" layoutX="14.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/share-a-bit.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
       <Label layoutX="28.0" layoutY="361.0" prefHeight="37.0" prefWidth="246.0" text="Waiting for sender to connect...">
