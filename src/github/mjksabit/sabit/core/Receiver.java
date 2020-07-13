@@ -25,7 +25,7 @@ public class Receiver extends Connection {
         return makeConnection(socket, name);
     }
 
-    public void stopListening() throws IOException {
+    public void stopListening() {
         serverSide.stopListening();
     }
 

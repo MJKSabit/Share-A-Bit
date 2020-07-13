@@ -33,8 +33,9 @@
             <Label layoutX="8.0" layoutY="54.0" text="Receiver(s) on Network" />
             <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="357.0" onAction="#send" prefHeight="28.0" prefWidth="260.0" style="-fx-background-color: #33cc33;" text="SEND" textFill="WHITE" />
             <JFXProgressBar fx:id="searchRecieverProgress" layoutX="6.0" layoutY="80.0" prefHeight="4.0" prefWidth="284.0" visible="false" />
-            <JFXButton layoutX="224.0" layoutY="49.0" onAction="#senderSelection" style="-fx-background-color: #3da1db;" text="Refresh" textFill="WHITE" />
-            <Label layoutX="61.0" layoutY="14.0" text="Make sure receiver is ready..." textFill="#d03c3c" />
+            <JFXButton fx:id="refreshButton" layoutX="224.0" layoutY="49.0" onAction="#senderSelection" style="-fx-background-color: #3da1db;" text="Refresh" textFill="WHITE" />
+            <Label layoutX="20.0" layoutY="6.0" text="Make sure receiver is in the same network" textFill="#d03c3c" />
+            <Label layoutX="138.0" layoutY="24.0" text="and ready to receive...." textFill="#d03c3c" />
          </children>
       </Pane>
       <Pane fx:id="fileSelectionPane" layoutY="55.0" prefHeight="399.0" prefWidth="300.0">

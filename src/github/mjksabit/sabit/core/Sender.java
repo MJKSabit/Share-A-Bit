@@ -37,11 +37,18 @@ public class Sender extends Connection {
 
     ClientSide clientSide;
 
-    public Sender(String name, ServerDiscoveryObserver observer) throws IOException {
+    public Sender(String name, ServerDiscoveryObserver observer) {
         super(name);
 
         clientSide = new ClientSide(observer, name, clientPort, listeningPort);
+    }
+
+    public void sendPresence() {
         clientSide.sendPresence();
+    }
+
+    public void stopListing() {
+        clientSide.stopListing();
     }
 
     @Override

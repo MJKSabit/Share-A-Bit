@@ -29,6 +29,7 @@ class SenderTest implements ServerDiscoveryObserver {
         try {
             connected.acquire();
             sender = new Sender("Test Sender", this);
+            sender.sendPresence();
             connected.acquire();
             makeConnection();
         } catch (InterruptedException | IOException e) {

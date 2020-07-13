@@ -58,6 +58,7 @@ public class Main {
                             System.err.println("Response Type Mismatch!");
                         }
                     });) {
+                        sender.sendPresence();
                         Sender.ServerInfo data = listReceivers.get(selectReceiver());
 
                         Socket connectionSocket = new Socket(data.getAddress(), data.getPort());

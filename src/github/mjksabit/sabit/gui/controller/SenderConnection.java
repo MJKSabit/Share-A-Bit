@@ -1,9 +1,9 @@
 package github.mjksabit.sabit.gui.controller;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXProgressBar;
 import github.mjksabit.autoconnect.ClientSide;
 import github.mjksabit.autoconnect.ServerDiscoveryObserver;
-import github.mjksabit.sabit.cli.Main;
 import github.mjksabit.sabit.core.Sender;
 import github.mjksabit.sabit.gui.JFXLoader;
 import javafx.application.Platform;
@@ -14,9 +14,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
@@ -49,6 +47,9 @@ public class SenderConnection extends Controller implements ServerDiscoveryObser
     @FXML
     private ListView<String> receiverList;
 
+    @FXML
+    private JFXButton refreshButton;
+
     private Sender sender = null;
     private String name;
     private String fileSaveDirectory;
@@ -58,6 +59,7 @@ public class SenderConnection extends Controller implements ServerDiscoveryObser
         receiverList.setItems(receivers);
         this.name = name;
         this.fileSaveDirectory = fileSaveDirectory;
+        sender = new Sender(name, this);
     }
 
     @FXML
@@ -124,26 +126,22 @@ public class SenderConnection extends Controller implements ServerDiscoveryObser
             Platform.runLater(() -> {
                 searchRecieverProgress.setVisible(true);
                 searchRecieverProgress.setProgress(JFXProgressBar.INDETERMINATE_PROGRESS);
+                refreshButton.setDisable(true);
                 receivers.clear();
             });
-            try {
-                sender = new Sender(name, this);
-            } catch (IOException e) {
-                // Exception Should Be Handled
-                Platform.runLater(() -> {
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle(e.getMessage());
-                    alert.setContentText(e.toString());
-                    alert.show();
-                });
-                 e.printStackTrace();
-            }
-            Platform.runLater(() -> searchRecieverProgress.setVisible(false));
+
+            sender.sendPresence();
+
+            Platform.runLater(() -> {
+                searchRecieverProgress.setVisible(false);
+                refreshButton.setDisable(false);
+            });
         }).start();
     }
 
     @FXML
     void cancelSending(ActionEvent event) {
+        sender.stopListing();
         Start startPage = null;
         try {
             startPage = JFXLoader.loadFXML("start");
