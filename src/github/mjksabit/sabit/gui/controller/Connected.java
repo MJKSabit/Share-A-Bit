@@ -55,6 +55,7 @@ public class Connected extends Controller {
             });
             lastProgress = 0;
             isReceiving = true;
+            firstTime = true;
         }
 
         @Override
@@ -165,7 +166,7 @@ public class Connected extends Controller {
                 }
 
                 synchronized (byteTransferredInTime) {
-                    long transferredNow = byteTransferredInTime;
+                    long transferredNow = Math.max(byteTransferredInTime, 0);
                     byteTransferredInTime = 0l;
                     Platform.runLater(() -> speedText.setText(getInMB(transferredNow/UPDATE_TIME)));
                 }
