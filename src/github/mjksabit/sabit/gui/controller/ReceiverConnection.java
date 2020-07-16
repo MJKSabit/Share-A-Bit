@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -29,7 +30,11 @@ public class ReceiverConnection extends Controller {
         usernameText.setText(name);
 
         this.fileSaveDirectory = fileSaveDirectory;
-        receiver = new Receiver(name);
+        try {
+            receiver = new Receiver(name);
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
 
         connectionThread.execute(() -> {
             try {

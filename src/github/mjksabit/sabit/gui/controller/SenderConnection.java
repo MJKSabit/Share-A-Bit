@@ -2,8 +2,8 @@ package github.mjksabit.sabit.gui.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXProgressBar;
-import github.mjksabit.autoconnect.ClientSide;
 import github.mjksabit.autoconnect.ServerDiscoveryObserver;
+import github.mjksabit.autoconnect.SharedInfo;
 import github.mjksabit.sabit.core.Sender;
 import github.mjksabit.sabit.gui.JFXLoader;
 import javafx.application.Platform;
@@ -17,10 +17,13 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import org.json.JSONException;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +33,7 @@ public class SenderConnection extends Controller implements ServerDiscoveryObser
     ObservableList<String> files = FXCollections.observableArrayList();
 
     ObservableList<String> receivers = FXCollections.observableArrayList();
-    Map<String, Sender.ServerInfo> servers = new HashMap<>();
+    Map<String, Sender.ReceiverInfo> servers = new HashMap<>();
 
     @FXML
     private Pane fileSelectionPane;
@@ -39,7 +42,7 @@ public class SenderConnection extends Controller implements ServerDiscoveryObser
     private Pane receiverSelectionPane;
 
     @FXML
-    private JFXProgressBar searchRecieverProgress;
+    private JFXProgressBar searchReceiverProgress;
 
     @FXML
     private ListView<String> fileList;
@@ -59,7 +62,11 @@ public class SenderConnection extends Controller implements ServerDiscoveryObser
         receiverList.setItems(receivers);
         this.name = name;
         this.fileSaveDirectory = fileSaveDirectory;
-        sender = new Sender(name, this);
+        try {
+            sender = new Sender(name, this);
+        } catch (SocketException | JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -84,7 +91,7 @@ public class SenderConnection extends Controller implements ServerDiscoveryObser
     @FXML
     void send(ActionEvent event) {
         String selectedReceiver = receiverList.getSelectionModel().getSelectedItem();
-        Sender.ServerInfo info = servers.getOrDefault(selectedReceiver, null);
+        Sender.ReceiverInfo info = servers.getOrDefault(selectedReceiver, null);
 
         if (info == null) {
             Alert alert = new Alert(AlertType.ERROR);
@@ -108,8 +115,8 @@ public class SenderConnection extends Controller implements ServerDiscoveryObser
     }
 
     @Override
-    public void serverDiscovered(ClientSide.ServerInfo serverInfo) {
-        Sender.ServerInfo info = new Sender.ServerInfo(serverInfo);
+    public void serverDiscovered(SharedInfo sharedInfo) {
+        Sender.ReceiverInfo info = new Sender.ReceiverInfo(sharedInfo);
         Platform.runLater(() -> receivers.add(info.getName()));
         servers.put(info.getName(), info);
     }
@@ -124,16 +131,26 @@ public class SenderConnection extends Controller implements ServerDiscoveryObser
 
         new Thread( () -> {
             Platform.runLater(() -> {
-                searchRecieverProgress.setVisible(true);
-                searchRecieverProgress.setProgress(JFXProgressBar.INDETERMINATE_PROGRESS);
+                searchReceiverProgress.setVisible(true);
+                searchReceiverProgress.setProgress(JFXProgressBar.INDETERMINATE_PROGRESS);
                 refreshButton.setDisable(true);
                 receivers.clear();
             });
 
-            sender.sendPresence();
+            try {
+                sender.sendPresence();
+            } catch (ConnectException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
             Platform.runLater(() -> {
-                searchRecieverProgress.setVisible(false);
+                searchReceiverProgress.setVisible(false);
                 refreshButton.setDisable(false);
             });
         }).start();
@@ -141,7 +158,7 @@ public class SenderConnection extends Controller implements ServerDiscoveryObser
 
     @FXML
     void cancelSending(ActionEvent event) {
-        sender.stopListing();
+        sender.stopListening();
         Start startPage = null;
         try {
             startPage = JFXLoader.loadFXML("start");

@@ -4,7 +4,7 @@ import java.io.File;
 
 public interface IFTP {
 
-    int BUFFER_SIZE = 64*1024; // 64 KB
+    int BUFFER_SIZE = 512*1024; // 512 KB
 
     boolean isSending();
 
@@ -20,13 +20,13 @@ public interface IFTP {
 
     interface ProgressUpdater {
 
-        void startProgress(File file);
+        void startProgress(File file, String parentPath, long totalSize);
 
-        void continueProgress(long currentProgress, long totalProgress);
+        void continueProgress(long currentProgress);
 
-        void cancelProgress(File file);
+        void cancelProgress();
 
-        void endProgress(File file);
+        void endProgress();
     }
 
     class FileData {

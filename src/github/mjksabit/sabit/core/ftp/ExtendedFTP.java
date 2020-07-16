@@ -1,7 +1,5 @@
 package github.mjksabit.sabit.core.ftp;
 
-import github.mjksabit.sabit.cli.Progress;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;

@@ -28,6 +28,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="jfoenix-8.0.10" level="project" />
-    <orderEntry type="library" name="autoconnect-0.2.1" level="project" />
+    <orderEntry type="library" name="autoconnect-v0.3.0" level="project" />
   </component>
 </module>

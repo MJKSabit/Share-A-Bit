@@ -11,43 +11,43 @@ import java.net.SocketException;
 
 class ReceiverTest {
 
-    Receiver receiver;
-
-    @BeforeEach
-    void setUp() {
-        receiver = new Receiver("Receiver Test");
-        try {
-            String sender = receiver.waitForSender();
-            System.out.println(sender);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @AfterEach
-    void tearDown() {
-        try {
-            receiver.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    void startReceiving() {
-        try {
-            receiver.startReceiving(new Progress());
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-
-        while (receiver.isActive()) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    Receiver receiver;
+//
+//    @BeforeEach
+//    void setUp() {
+//        receiver = new Receiver("Receiver Test");
+//        try {
+//            String sender = receiver.waitForSender();
+//            System.out.println(sender);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
+//
+//    @AfterEach
+//    void tearDown() {
+//        try {
+//            receiver.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    @Test
+//    void startReceiving() {
+//        try {
+//            receiver.startReceiving(new Progress());
+//        } catch (SocketException e) {
+//            e.printStackTrace();
+//        }
+//
+//        while (receiver.isActive()) {
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 }

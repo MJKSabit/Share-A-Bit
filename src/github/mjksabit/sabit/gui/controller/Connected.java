@@ -44,30 +44,30 @@ public class Connected extends Controller {
 
     private class ReceiveProgress implements IFTP.ProgressUpdater {
         private long lastProgress = 0;
-        private boolean firstTime = true;
         private long fileSize;
+        private String parentPath;
+        private File mFile;
 
         @Override
-        public void startProgress(File file) {
+        public void startProgress(File file, String parentPath, long totalSize) {
             Platform.runLater(() -> {
                 receiveFileNameText.setText(file.getName());
                 receivePane.setVisible(true);
+                receivedTotalInMB.setText(getInMB(totalSize));
             });
             lastProgress = 0;
             isReceiving = true;
-            firstTime = true;
+            fileSize = totalSize;
+            this.parentPath = parentPath;
+            mFile = file;
         }
 
         @Override
-        public void continueProgress(long currentProgress, long totalProgress) {
+        public void continueProgress(long currentProgress) {
             byteTransferredInTime += currentProgress - lastProgress;
             lastProgress = currentProgress;
-            if (firstTime){
-                firstTime = false;
-                fileSize = totalProgress;
-                Platform.runLater(()->receivedTotalInMB.setText(getInMB(totalProgress)));
-            }
-            double percentage = (double) currentProgress / totalProgress;
+
+            double percentage = (double) currentProgress / fileSize;
             String string = getInMB(currentProgress);
             Platform.runLater(() -> {
                 receivedInMB.setText(string);
@@ -77,7 +77,7 @@ public class Connected extends Controller {
         }
 
         @Override
-        public void cancelProgress(File file) {
+        public void cancelProgress() {
             Platform.runLater(() -> {
                 receiveProgressBar.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
                 receiveFileNameText.setText("Canceled");
@@ -86,10 +86,10 @@ public class Connected extends Controller {
         }
 
         @Override
-        public void endProgress(File file) {
+        public void endProgress() {
             byteTransferredInTime += fileSize - lastProgress;
             Platform.runLater(() -> {
-                transmissionList.add(new FileNode(false, file.getName(), fileSize));
+                transmissionList.add(new FileNode(false, mFile.getName(), fileSize));
                 receivePane.setVisible(false);
             });
             isReceiving = false;
@@ -97,26 +97,30 @@ public class Connected extends Controller {
     }
 
     private class SendProgress implements IFTP.ProgressUpdater {
+        private File mFile;
+        private long fileSize;
         private long lastProgress = 0;
         private int index;
 
         @Override
-        public void startProgress(File file) {
+        public void startProgress(File file, String parentPath, long totalSize) {
             Platform.runLater(() -> {
                 sendPane.setVisible(true);
                 sendFileNameText.setText(file.getName());
                 index = transmissionList.size();
                 transmissionList.add(new FileNode(true, file.getName(), file.length()));
-                sendTotalInMB.setText(getInMB(file.length()));
+                sendTotalInMB.setText(getInMB(totalSize));
             });
             lastProgress = 0;
+            mFile = file;
+            fileSize = totalSize;
         }
 
         @Override
-        public void continueProgress(long currentProgress, long totalProgress) {
+        public void continueProgress(long currentProgress) {
             byteTransferredInTime += currentProgress - lastProgress;
             lastProgress = currentProgress;
-            double percentage = (double) currentProgress / totalProgress;
+            double percentage = (double) currentProgress / fileSize;
             String string = getInMB(currentProgress);
             Platform.runLater(() -> {
                 sentInMB.setText(string);
@@ -126,7 +130,7 @@ public class Connected extends Controller {
         }
 
         @Override
-        public void cancelProgress(File file) {
+        public void cancelProgress() {
             Platform.runLater(() -> {
                 sendProgressBar.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
                 sendFileNameText.setText("Canceled");
@@ -134,8 +138,8 @@ public class Connected extends Controller {
         }
 
         @Override
-        public void endProgress(File file) {
-            byteTransferredInTime += file.length() - lastProgress;
+        public void endProgress() {
+            byteTransferredInTime += fileSize - lastProgress;
             Platform.runLater(() -> {
                 transmissionList.get(index).markDone();
                 sendPane.setVisible(false);
