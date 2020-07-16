@@ -62,7 +62,7 @@ public abstract class Connection implements Closeable {
     }
 
     public void cancelSending() {
-        ftp.cancelSending();
+        ftp.cancelSendingAll();
     }
 
     public void sendFile(File file, IFTP.ProgressUpdater progressUpdater) throws FileNotFoundException, SocketException {

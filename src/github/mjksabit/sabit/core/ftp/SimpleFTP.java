@@ -78,13 +78,15 @@ public class SimpleFTP implements IFTP {
     @Override
     public void cancelSendingCurrent() {
         synchronized (sendQueue) {
+            System.out.println("Cancel");
             if (!sendQueue.isEmpty()) sendQueue.peek().setCancelled(true);
         }
     }
 
     @Override
-    public void cancelSending() {
+    public void cancelSendingAll() {
         synchronized (sendQueue) {
+            if (!sendQueue.isEmpty()) sendQueue.peek().setCancelled(true);
             sendQueue.clear();
         }
     }

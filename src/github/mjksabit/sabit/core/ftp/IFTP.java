@@ -12,7 +12,7 @@ public interface IFTP {
 
     void cancelSendingCurrent();
 
-    void cancelSending();
+    void cancelSendingAll();
 
     boolean isReceiving();
 

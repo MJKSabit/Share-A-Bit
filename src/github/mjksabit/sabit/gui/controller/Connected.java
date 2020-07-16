@@ -133,6 +133,7 @@ public class Connected extends Controller {
         public void cancelProgress() {
             Platform.runLater(() -> {
                 sendProgressBar.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+                transmissionList.get(index).markCancelled();
                 sendFileNameText.setText("Canceled");
             });
         }
