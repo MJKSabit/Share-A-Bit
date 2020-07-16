@@ -1,12 +1,15 @@
 package github.mjksabit.sabit.gui.controller;
 
 
+import github.mjksabit.sabit.core.Constant;
 import github.mjksabit.sabit.core.Receiver;
 import github.mjksabit.sabit.gui.JFXLoader;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import org.json.JSONException;
 
@@ -34,6 +37,12 @@ public class ReceiverConnection extends Controller {
             receiver = new Receiver(name);
         } catch (IOException | JSONException e) {
             e.printStackTrace();
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Try Again When the Port is Available");
+            alert.setContentText("Either another instance of this app or Other App using Port no "+ Constant.LISTENING_PORT + "\n\n");
+            alert.showAndWait();
+            cancelReceiving(null);
+            return;
         }
 
         connectionThread.execute(() -> {
@@ -62,7 +71,7 @@ public class ReceiverConnection extends Controller {
         try {
             receiver.stopListening();
             receiver.close();
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
         }
 

@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
@@ -23,7 +24,7 @@ public class Start extends Controller{
     private Pane topPane;
 
     @FXML
-    private StackPane contentStack;
+    private AnchorPane contentStack;
 
     @FXML
     private Pane homePane;
@@ -53,7 +54,7 @@ public class Start extends Controller{
     private JFXButton updateChecker;
 
     @FXML
-    private Pane bottomNavigation;
+    private AnchorPane leftNavigation;
 
     @FXML
     private JFXButton homeButton;

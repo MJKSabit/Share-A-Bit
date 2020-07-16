@@ -6,20 +6,20 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="57.0" prefWidth="270.0" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="57.0" prefWidth="400.0" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="fileNameLabel" layoutX="59.0" layoutY="6.0" prefHeight="25.0" prefWidth="197.0" text="File Name" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="6.0">
+      <Label fx:id="fileNameLabel" alignment="TOP_LEFT" layoutX="59.0" layoutY="6.0" prefHeight="46.0" prefWidth="337.0" text="File Name" wrapText="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label fx:id="totalFileSize" alignment="CENTER_RIGHT" layoutX="179.0" layoutY="31.0" prefHeight="18.0" prefWidth="80.0" text="0 MB" textFill="#727272" />
-      <ImageView fx:id="upImage" fitHeight="46.0" fitWidth="46.0" layoutX="7.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <Label fx:id="totalFileSize" alignment="CENTER_RIGHT" layoutX="166.0" layoutY="31.0" prefHeight="18.0" prefWidth="93.0" text="0 MB" textFill="#727272" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="20.0" />
+      <ImageView fx:id="upImage" fitHeight="46.0" fitWidth="46.0" layoutX="7.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
          <image>
             <Image url="@../images/up.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="downImage" fitHeight="46.0" fitWidth="46.0" layoutX="6.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="downImage" fitHeight="46.0" fitWidth="46.0" layoutX="6.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
          <image>
             <Image url="@../images/down.png" />
          </image>

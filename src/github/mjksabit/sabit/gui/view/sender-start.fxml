@@ -7,12 +7,11 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="300.0" style="-fx-background-color: #e9f5fb;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="github.mjksabit.sabit.gui.controller.SenderConnection">
+<AnchorPane prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: #e9f5fb;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="github.mjksabit.sabit.gui.controller.SenderConnection">
    <children>
-      <Pane prefHeight="55.0" prefWidth="300.0" style="-fx-background-color: #2c9dd7;">
+      <AnchorPane prefHeight="55.0" prefWidth="300.0" style="-fx-background-color: #2c9dd7;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label layoutX="60.0" layoutY="7.0" prefHeight="40.0" prefWidth="181.0" text="Share A BIT" textFill="WHITE">
                <font>
@@ -25,46 +24,50 @@
                </image>
             </ImageView>
          </children>
-      </Pane>
-      <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="460.0" onAction="#cancelSending" prefHeight="28.0" prefWidth="260.0" style="-fx-background-color: #ff4d4d;" text="Cancel" textFill="WHITE" />
-      <Pane fx:id="receiverSelectionPane" disable="true" layoutY="55.0" prefHeight="399.0" prefWidth="300.0" visible="false">
+      </AnchorPane>
+      <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="460.0" onAction="#cancelSending" prefHeight="28.0" prefWidth="260.0" style="-fx-background-color: #ff4d4d;" text="Cancel" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+      <AnchorPane layoutY="55.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="55.0">
          <children>
-            <ListView fx:id="receiverList" layoutX="6.0" layoutY="86.0" prefHeight="254.0" prefWidth="284.0" />
-            <Label layoutX="8.0" layoutY="54.0" text="Receiver(s) on Network" />
-            <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="357.0" onAction="#send" prefHeight="28.0" prefWidth="260.0" style="-fx-background-color: #33cc33;" text="SEND" textFill="WHITE" />
-            <JFXProgressBar fx:id="searchReceiverProgress" layoutX="6.0" layoutY="80.0" prefHeight="4.0" prefWidth="284.0" visible="false" />
-            <JFXButton fx:id="refreshButton" layoutX="224.0" layoutY="49.0" onAction="#senderSelection" style="-fx-background-color: #3da1db;" text="Refresh" textFill="WHITE" />
-            <Label layoutX="20.0" layoutY="6.0" text="Make sure receiver is in the same network" textFill="#d03c3c" />
-            <Label layoutX="138.0" layoutY="24.0" text="and ready to receive...." textFill="#d03c3c" />
+            <AnchorPane fx:id="receiverSelectionPane" disable="true" prefHeight="399.0" prefWidth="300.0" visible="false" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <ListView fx:id="receiverList" layoutX="6.0" layoutY="86.0" prefHeight="254.0" prefWidth="284.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="90.0" />
+                  <Label layoutX="8.0" layoutY="54.0" text="Receiver(s) on Network" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0" />
+                  <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="357.0" onAction="#send" prefHeight="28.0" prefWidth="260.0" style="-fx-background-color: #33cc33;" text="SEND" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+                  <JFXProgressBar fx:id="searchReceiverProgress" layoutX="6.0" layoutY="80.0" prefHeight="4.0" prefWidth="284.0" visible="false" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="82.0" />
+                  <JFXButton fx:id="refreshButton" layoutX="224.0" layoutY="49.0" onAction="#senderSelection" style="-fx-background-color: #3da1db;" text="Refresh" textFill="WHITE" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0" />
+                  <Label layoutX="11.0" layoutY="6.0" prefHeight="40.0" prefWidth="480.0" text="Make sure receiver is in the same network and ready to receive...." textFill="#d03c3c" wrapText="true" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="fileSelectionPane" prefHeight="399.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label layoutX="20.0" layoutY="11.0" text="Files">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="fileList" layoutY="44.0" prefHeight="292.0" prefWidth="300.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="45.0" />
+                  <JFXButton graphicTextGap="5.0" layoutX="201.0" layoutY="3.0" onAction="#addFolder" style="-fx-background-color: #33cc33;" text="Add Folder" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="10.0">
+                     <graphic>
+                        <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/add-folder.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton graphicTextGap="5.0" layoutX="251.0" layoutY="4.0" onAction="#addFile" style="-fx-background-color: #33cc33;" text="Add File(s)" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/add-file.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="357.0" onAction="#senderSelection" prefHeight="28.0" prefWidth="260.0" style="-fx-background-color: #2c9dd7;" text="Select Sender &gt;&gt;" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+               </children>
+            </AnchorPane>
          </children>
-      </Pane>
-      <Pane fx:id="fileSelectionPane" layoutY="55.0" prefHeight="399.0" prefWidth="300.0">
-         <children>
-            <Label layoutX="20.0" layoutY="11.0" text="Files">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            <ListView fx:id="fileList" layoutY="44.0" prefHeight="292.0" prefWidth="300.0" />
-            <JFXButton contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="201.0" layoutY="3.0" onAction="#addFolder" style="-fx-background-color: #33cc33;" text="+ Folder">
-               <graphic>
-                  <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/add-folder.png" />
-                     </image>
-                  </ImageView>
-               </graphic></JFXButton>
-            <JFXButton contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="251.0" layoutY="4.0" onAction="#addFile" style="-fx-background-color: #33cc33;" text="+ Folder">
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/add-file.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </JFXButton>
-            <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="357.0" onAction="#senderSelection" prefHeight="28.0" prefWidth="260.0" style="-fx-background-color: #2c9dd7;" text="Next &gt;&gt;" textFill="WHITE" />
-         </children>
-      </Pane>
+      </AnchorPane>
    </children>
 </AnchorPane>
