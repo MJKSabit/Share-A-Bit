@@ -10,11 +10,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class Start extends Controller{
     private final StringProperty nameProperty = new SimpleStringProperty();
@@ -151,6 +153,12 @@ public class Start extends Controller{
 
     @FXML
     void checkUpdate(ActionEvent event) {
-        System.out.println("Check Updates");
+        String link = "https://mjksabit.github.io/projects/share-a-bit/";
+        System.out.println("Please Visit: "+link);
+        try {
+            Desktop.getDesktop().browse(new URI(link));
+        } catch (IOException | URISyntaxException ignored) {
+
+        }
     }
 }
