@@ -1,27 +1,33 @@
 package github.mjksabit.sabit.gui.controller;
 
 import com.jfoenix.controls.JFXProgressBar;
+import com.sun.javafx.application.HostServicesDelegate;
 import github.mjksabit.sabit.core.Connection;
 import github.mjksabit.sabit.core.ftp.IFTP;
+import github.mjksabit.sabit.gui.FXMain;
 import github.mjksabit.sabit.gui.JFXLoader;
 import github.mjksabit.sabit.gui.model.FileNode;
+import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import sun.security.krb5.internal.crypto.Des;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.SocketException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -293,5 +299,22 @@ public class Connected extends Controller {
     void cancelSendingAll(ActionEvent event) {
         connection.cancelSending();
         connection.cancelSendingCurrent();
+    }
+
+    @FXML
+    void openReceivedFolder(ActionEvent event) {
+        File parent = new File(connection.getFileSaveDirectory());
+        if (!Desktop.isDesktopSupported()) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Cannot Open the Folder Automatically, Go to :");
+            alert.setContentText(parent.getAbsolutePath());
+            alert.showAndWait();
+            return;
+        }
+        try {
+            Desktop.getDesktop().open(parent);
+        } catch (IOException | NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 }

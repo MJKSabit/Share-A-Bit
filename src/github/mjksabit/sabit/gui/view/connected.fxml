@@ -29,7 +29,7 @@
       </AnchorPane>
       <AnchorPane layoutX="-7.0" layoutY="51.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="45.0">
          <children>
-            <JFXButton buttonType="RAISED" graphicTextGap="5.0" layoutX="310.0" layoutY="405.0" minHeight="38.0" onAction="#addFolder" style="-fx-background-color: #33cc33;" text="Add Folder" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="140.0">
+            <JFXButton buttonType="RAISED" graphicTextGap="5.0" layoutX="310.0" layoutY="405.0" minHeight="38.0" onAction="#addFolder" style="-fx-background-color: #33cc33;" text="Add Folder" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="125.0">
                <graphic>
                   <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -38,7 +38,7 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <JFXButton buttonType="RAISED" graphicTextGap="5.0" layoutX="258.0" layoutY="408.0" minHeight="38.0" onAction="#addFile" style="-fx-background-color: #33cc33;" text="Add File(s)" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="20.0">
+            <JFXButton buttonType="RAISED" graphicTextGap="5.0" layoutX="258.0" layoutY="408.0" minHeight="38.0" onAction="#addFile" style="-fx-background-color: #33cc33;" text="Add File(s)" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="10.0">
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -53,8 +53,8 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <JFXButton buttonType="RAISED" layoutX="15.0" layoutY="407.0" onAction="#cancelSendingAll" prefHeight="36.0" prefWidth="165.0" style="-fx-background-color: #ff4d4d;" text="Cancel Sending" textFill="WHITE" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="10.0" />
-            <Group layoutX="277.0" layoutY="116.0" AnchorPane.rightAnchor="10.0">
+            <JFXButton buttonType="RAISED" layoutX="113.0" layoutY="113.0" onAction="#cancelSendingAll" prefHeight="30.0" prefWidth="125.0" style="-fx-background-color: #ff4d4d;" text="Cancel Sending" textFill="WHITE" AnchorPane.rightAnchor="10.0" />
+            <Group layoutX="277.0" layoutY="116.0" AnchorPane.rightAnchor="140.0">
                <children>
                   <Label fx:id="speedText" alignment="CENTER_RIGHT" prefHeight="29.0" prefWidth="198.0" text="0 MB">
                      <font>
@@ -107,6 +107,15 @@
                   </Label>
                </children>
             </AnchorPane>
+            <JFXButton buttonType="RAISED" graphicTextGap="8.0" layoutX="155.0" layoutY="405.0" onAction="#openReceivedFolder" prefHeight="38.0" prefWidth="165.0" style="-fx-background-color: #2c9dd7;" text="Received Folder" textFill="WHITE" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="10.0">
+               <graphic>
+                  <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/folder.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
          </children>
       </AnchorPane>
    </children>
