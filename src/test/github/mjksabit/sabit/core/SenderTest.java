@@ -1,18 +1,18 @@
 package github.mjksabit.sabit.core;
-
-import github.mjksabit.autoconnect.ClientSide;
-import github.mjksabit.autoconnect.ServerDiscoveryObserver;
-import github.mjksabit.sabit.cli.Progress;
-import org.junit.jupiter.api.Test;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.Socket;
-import java.net.SocketException;
-import java.util.concurrent.Semaphore;
-
-import static org.junit.jupiter.api.Assertions.*;
+//
+//import github.mjksabit.autoconnect.ClientSide;
+//import github.mjksabit.autoconnect.ServerDiscoveryObserver;
+//import github.mjksabit.sabit.cli.Progress;
+//import org.junit.jupiter.api.Test;
+//
+//import java.io.File;
+//import java.io.FileNotFoundException;
+//import java.io.IOException;
+//import java.net.Socket;
+//import java.net.SocketException;
+//import java.util.concurrent.Semaphore;
+//
+//import static org.junit.jupiter.api.Assertions.*;
 
 class SenderTest /*implements ServerDiscoveryObserver*/ {
 

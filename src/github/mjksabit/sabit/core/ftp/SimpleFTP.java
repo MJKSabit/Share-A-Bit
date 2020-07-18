@@ -33,22 +33,6 @@ public class SimpleFTP implements IFTP {
         return sendSemaphore.availablePermits() == 0;
     }
 
-
-    public void stopSendingCurrent() {
-        if (!sendQueue.isEmpty())
-            sendQueue.peek().setCancelled(true);
-    }
-
-    public void stopSendAll() {
-        Iterator<FileData> iterator = sendQueue.iterator();
-
-        while (iterator.hasNext()) {
-            iterator.next().setCancelled(true);
-
-        }
-    }
-
-
     @Override
     public void addToSend(String parentPath, File file, ProgressUpdater progress) {
         sendQueue.add(new FileData(parentPath, file, progress));
@@ -174,6 +158,9 @@ public class SimpleFTP implements IFTP {
     private void receive(String savePath, ProgressUpdater updater) throws IOException {
         String fileName = in.readUTF();
         long fileSize = in.readLong();
+
+        // Replace File Separator with System File Separator
+        fileName = fileName.replaceAll("[\\\\/]", File.separator);
 
         File file = new File(savePath + File.separator + fileName);
 

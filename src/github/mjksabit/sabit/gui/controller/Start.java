@@ -3,6 +3,8 @@ package github.mjksabit.sabit.gui.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import github.mjksabit.sabit.cli.Main;
+import github.mjksabit.sabit.gui.FXMain;
 import github.mjksabit.sabit.gui.JFXLoader;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -13,7 +15,9 @@ import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
 
 import java.awt.*;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -67,6 +71,24 @@ public class Start extends Controller{
     @FXML
     private JFXButton aboutButton;
 
+    public void loadSettings(String name, String savePath) {
+        nameText.setText(name);
+        receiveDirectoryProperty.set(savePath);
+    }
+
+    @FXML
+    public void saveSettings() {
+        File settingsFile = new File(FXMain.SETTINGS_FILE);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(settingsFile))) {
+            writer.write(nameProperty.get());
+            writer.newLine();
+            writer.write(receiveDirectoryProperty.get());
+            writer.newLine();
+            System.out.println("Settings Saved!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     void initialize() {

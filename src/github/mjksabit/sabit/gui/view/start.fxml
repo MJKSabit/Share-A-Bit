@@ -72,27 +72,28 @@
                   </StackPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="settingsPane" disable="true" layoutX="10.0" layoutY="10.0" prefHeight="455.0" prefWidth="300.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="settingsPane" layoutX="10.0" layoutY="10.0" prefHeight="455.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <StackPane layoutX="25.0" layoutY="29.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Group>
                            <children>
                               <JFXTextField fx:id="nameText" focusColor="#53acdf" labelFloat="true" layoutY="55.0" prefHeight="40.0" prefWidth="250.0" promptText="Name" text="Windows-PC" unFocusColor="#93cbeb" />
-                              <JFXTextField fx:id="receiveDirectory" editable="false" focusColor="#53acdf" labelFloat="true" layoutY="298.0" prefHeight="40.0" prefWidth="210.0" promptText="Receive Directory" text="." unFocusColor="#93cbeb" />
-                              <JFXButton fx:id="browseDirectory" layoutX="210.0" layoutY="298.0" onAction="#browseReceiveDirectory" prefHeight="40.0" prefWidth="40.0" ripplerFill="#b27878" style="-fx-background-color: #53acdf;" text="..." textFill="WHITE" />
+                              <JFXTextField fx:id="receiveDirectory" editable="false" focusColor="#53acdf" labelFloat="true" layoutY="235.0" prefHeight="40.0" prefWidth="210.0" promptText="Receive Directory" text="." unFocusColor="#93cbeb" />
+                              <JFXButton fx:id="browseDirectory" layoutX="210.0" layoutY="235.0" onAction="#browseReceiveDirectory" prefHeight="40.0" prefWidth="40.0" ripplerFill="#b27878" style="-fx-background-color: #53acdf;" text="..." textFill="WHITE" />
                               <Label text="Device Info">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
+                              <JFXButton layoutX="28.0" layoutY="320.0" onAction="#saveSettings" prefHeight="37.0" prefWidth="194.0" style="-fx-background-color: #53acdf;" text="Save Setting" textFill="WHITE" />
                            </children>
                         </Group>
                      </children>
                   </StackPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="aboutPane" layoutX="10.0" layoutY="10.0" prefHeight="455.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="aboutPane" disable="true" layoutX="10.0" layoutY="10.0" prefHeight="455.0" prefWidth="300.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <StackPane layoutX="63.0" layoutY="11.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
