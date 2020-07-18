@@ -155,12 +155,26 @@ public class SimpleFTP implements IFTP {
         }
     }
 
+    private String pathChanger(String unknownSource) {
+        StringBuilder builder = new StringBuilder();
+        char replace = '\\'==File.separatorChar ? '/' : '\\';
+
+        for (int i=0; i<unknownSource.length(); i++) {
+            if (unknownSource.charAt(i) == replace)
+                builder.append(File.separatorChar);
+            else
+                builder.append(unknownSource.charAt(i));
+        }
+
+        return builder.toString();
+    }
+
     private void receive(String savePath, ProgressUpdater updater) throws IOException {
         String fileName = in.readUTF();
         long fileSize = in.readLong();
 
         // Replace File Separator with System File Separator
-        fileName = fileName.replaceAll("[\\\\/]", File.separator);
+        fileName = pathChanger(fileName);
 
         File file = new File(savePath + File.separator + fileName);
 
